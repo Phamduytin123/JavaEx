@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class FormMain extends JFrame {
 	private JPanel contentPane;
@@ -38,13 +41,14 @@ public class FormMain extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel pnMenu = new JPanel();
-		pnMenu.setBackground(new Color(128, 255, 255));
+		pnMenu.setBackground(new Color(255, 128, 0));
 		pnMenu.setBounds(0, 0, 190, 553);
 		contentPane.add(pnMenu);
 		pnMenu.setLayout(null);
+		panelBill.setBackground(new Color(255, 255, 255));
 		
 		contentPane.add(panelBill);
+		panelBill.setLayout(null);
 		setContentPane(contentPane);
 	}
-
 }
