@@ -11,7 +11,7 @@ public class PanelBill extends JPanel {
 	 * Create the panel.
 	 */
 	public PanelBill() {
-		setBackground(new Color(128, 0, 0));
+		setBackground(new Color(0, 255, 64));
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBounds(188, 0, 614, 553);
 		setLayout(null);
