@@ -69,44 +69,46 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 
 	@Override
 	public ArrayList<Bill> selectAll() throws SQLException, ClassNotFoundException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		String query = "Select * from Bill";
 		Connector.getInstance().ConnectToDatabase();
-		List<Bill> list = new ArrayList<>();
-		
-		//Bước 3 : Thực hiện câu lệnh truy vấn
+		ResultSet rs = null;
 		try {
-			String sqlCommand = "SELECT * FROM Bill";
-			Connector.getInstance().result = Connector.getInstance().excuteQuery(sqlCommand);
-		while(Connector.getInstance().result.next())
-		{
-			 Bill bill = new Bill(Connector.getInstance().result.getInt(1),Connector.getInstance().result.getInt(2),
-					 Connector.getInstance().result.getInt(3),Connector.getInstance().result.getInt(4),
-					 Connector.getInstance().result.getDate(5),Connector.getInstance().result.getInt(6));
-			
-			list.add(bill);
+			rs = Connector.getInstance().excuteQuery(query);
+			while(rs.next()) {
+				int ID = rs.getInt(1);
+				int IDCustomer = rs.getInt(2);
+				int IDCourse = rs.getInt(3);
+				int	IDUser = rs.getInt(4);
+				Date DayBook = rs.getDate(5);
+				int Total = rs.getInt(6); 
+				Bill bill = new Bill(ID,IDCustomer,IDCourse,IDUser,DayBook,Total);
+				bills.add(bill);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return (ArrayList<Bill>) list;
+		return bills;
 	}
 	@Override
 	public Bill selectByID(Integer t) throws SQLException, ClassNotFoundException {
-		Connection Conn = JDBCUtil.getConnection();
-		Statement stmt = Conn.createStatement();
-		String sqlCommand = "SELECT * FROM Bill where id = "+t;
-		ResultSet rs = stmt.executeQuery(sqlCommand);
+		String query = "Select * from Bill where Id = "+t;
 		Bill bill = null;
-		while(rs.next())
-		{
-			int ID = rs.getInt(1);
-			int IDCustomer = rs.getInt(2);
-			int IDCourse = rs.getInt(3);
-			int	IDUser = rs.getInt(4);
-			Date DayBook = rs.getDate(5);
-			int Total = rs.getInt(6); 
-			bill = new Bill(ID,IDCustomer,IDCourse,IDUser,DayBook,Total);
+		Connector.getInstance().ConnectToDatabase();
+		ResultSet rs = null;
+		try {
+			rs = Connector.getInstance().excuteQuery(query);
+			while(rs.next()) {
+				int ID = rs.getInt(1);
+				int IDCustomer = rs.getInt(2);
+				int IDCourse = rs.getInt(3);
+				int	IDUser = rs.getInt(4);
+				Date DayBook = rs.getDate(5);
+				int Total = rs.getInt(6); 
+				bill = new Bill(ID,IDCustomer,IDCourse,IDUser,DayBook,Total);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return bill;
 	}

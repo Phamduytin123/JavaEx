@@ -68,30 +68,24 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 
 	@Override
 	public ArrayList<Course> selectAll() throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		
-		Connection Conn = JDBCUtil.getConnection(); 
-		List<Course> list = new ArrayList<>();
-		
-		//Bước 3 : Thực hiện câu lệnh truy vấn 
-		Statement stmt = Conn.createStatement();
-		String sqlCommand = "SELECT * FROM Course";
-		ResultSet rs = stmt.executeQuery(sqlCommand); 
-		while(rs.next())
-		{
-			int ID = rs.getInt(1);
-			String Kind = rs.getString(2);
-			int Price = rs.getInt(3);
-			
-			list.add(new Course(ID, Kind, Price));
+		ArrayList<Course> courses = new ArrayList<Course>();
+		Connector.getInstance().ConnectToDatabase();
+		String sql = "Select * from Course";
+		try {
+			ResultSet rs = Connector.getInstance().excuteQuery(sql);
+			while(rs.next()) {
+				int id = rs.getInt(1);
+				String kind = rs.getString(2);
+				int price = rs.getInt(3);
+				Course course = new Course(id,kind,price);
+				courses.add(course);
+			}
+			Connector.getInstance().conn.close();
 		}
-		
-		rs.close();
-		stmt.close();
-				
-		JDBCUtil.closeConnection(Conn);
-		return (ArrayList<Course>) list;
-
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return courses;
 	}
 
 	@Override
