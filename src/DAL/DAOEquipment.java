@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import DTO.Equipment;
 
 public class DAOEquipment implements DAOUtils<Equipment, Integer>{
-
+	private static DAOEquipment instance = new DAOEquipment();
+	public static DAOEquipment getInstance()
+	{
+		return instance;
+	}
 	@Override
 	public int insert(Equipment t) throws SQLException, ClassNotFoundException {
 		int data = 0;

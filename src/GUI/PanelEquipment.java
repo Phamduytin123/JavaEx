@@ -25,6 +25,10 @@ public class PanelEquipment extends JPanel {
 	private JTable tableCus;
 	private JScrollPane scrollPane;
 	private JPanel panelDecor_1;
+	
+	
+	
+	
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.

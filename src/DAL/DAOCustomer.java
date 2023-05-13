@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import DTO.Customer;
 
 public class DAOCustomer implements DAOUtils<Customer, Integer>{
-
+	private static DAOCustomer instance = new DAOCustomer();
+	public static DAOCustomer getInstance()
+	{
+		return instance;
+	}
 	@Override
 	public int insert(Customer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
@@ -68,12 +72,14 @@ public class DAOCustomer implements DAOUtils<Customer, Integer>{
 			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
 			rs = stmt.executeQuery(query);
 			while(rs.next()) {
+				
 				int id = rs.getInt(1);
 				String name = rs.getString(2);
 				String phonenum = rs.getString(3);
 				String gender = rs.getString(4);
 				Customer customer = new Customer(id,name,phonenum,gender);
 				customers.add(customer);
+				System.out.println("1");
 			}
 			Connector.getInstance().conn.close();
 		} catch (Exception e) {

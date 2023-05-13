@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.SystemColor;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JTextField;
@@ -11,6 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import BLL.BLLCustomer;
+import DTO.Customer;
+
 import javax.swing.JComboBox;
 import java.awt.ScrollPane;
 import javax.swing.JTable;
@@ -21,15 +28,17 @@ public class PanelCustomer extends JPanel {
 	private JTextField txtId;
 	private JTextField txtName;
 	private JTextField txtPhonenumber;
-	private JComboBox cbGender;
-	private JTable tableCus;
+	private JComboBox<String> cbGender;
+	private ArrayList<Customer> data = BLLCustomer.Instance().GetAll();
+	private DefaultTableModel dtm;
+	private JTable table;
 	private JScrollPane scrollPane;
 	private JPanel panelDecor_1;
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
 	 */
-	public PanelCustomer() {
+	public PanelCustomer() throws SQLException, ClassNotFoundException  {
 		setBackground(SystemColor.info);
 		setLayout(null);
 		
@@ -88,50 +97,38 @@ public class PanelCustomer extends JPanel {
 		txtPhonenumber.setBounds(448, 193, 125, 30);
 		add(txtPhonenumber);
 		
-		cbGender = new JComboBox(new Object[] {"Male", "Female"});
+		cbGender = new JComboBox<String>();
+		cbGender.addItem("Nam");
+		cbGender.addItem("Nữ");
 		cbGender.setBackground(SystemColor.textHighlightText);
 		cbGender.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbGender.setBounds(115, 193, 125, 30);
 		add(cbGender);
 		
-		Vector<Vector> dataTable = new Vector<>();
-		Vector rows = new Vector();
-		rows.add("1");
-		rows.add("1");
-		rows.add("1");
-		rows.add("1");
+		table = new JTable();
 		
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
+		String[] columnNames = { "ID","Tên","SDT","Giới tính" };
+
+		dtm = new DefaultTableModel(columnNames, 0);
 		
-		Vector columns = new Vector();
-		columns.add("ID");
-		columns.add("Gender");
-		columns.add("Name");
-		columns.add("Phonenumber");
-		tableCus = new JTable(dataTable, columns);
-		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tableCus.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		for (int i = 0; i < 5; i++) {
+//			int ID = data.get(i).getID();
+//			String Name = data.get(i).getName();
+//			String Phone = data.get(i).getPhoneNumber();
+//			String Gender = data.get(i).getGender();
+//			Object[] newRow = {ID,Name,Phone,Gender};
+			
+			Object [] newRow = {1,1,1,1};
+			
+			dtm.addRow(newRow);
+		}
+		table.setModel(dtm);
 		
-		tableCus.setBounds(10, 307, 607, 236);
 		
-		scrollPane = new JScrollPane(tableCus);
+		scrollPane = new JScrollPane(table);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBackground(SystemColor.info);
-		scrollPane.setBounds(10, 307, 641, 236);
+		scrollPane.setBounds(10, 307, 651, 236);
 		
 		add(scrollPane);
 		

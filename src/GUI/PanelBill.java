@@ -3,9 +3,14 @@ package GUI;
 import java.awt.Color;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.SystemColor;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -19,7 +24,9 @@ public class PanelBill extends JPanel {
 	private JTextField txtCourse;
 	private JTextField txtDate;
 	private JTextField txtTotal;
-
+	
+	private DefaultTableModel dtm;
+	private JTable table;
 	private JButton btnAdd, btnCancel, btnUpdate, btnDel;
 	private JLabel lblSearchCourse, lblScPhone,lblScHan;
 	private JComboBox<String> cbbCourse,cbbDay;
@@ -184,6 +191,28 @@ public class PanelBill extends JPanel {
 		lblScHan.setBounds(474, 11, 25, 25);
 		lblScHan.setIcon(new ImageIcon(PanelBill.class.getResource("/photo/SearchImage1.png")));
 		panel_1.add(lblScHan);
+		
+		table = new JTable();
+		
+		String[] columnNames = { "ID","Tên","SDT","Giới tính" };
+
+		dtm = new DefaultTableModel(columnNames, 0);
+		
+		for (int i = 0; i < 5; i++) {
+
+			Object [] newRow = {1,1,1,1};
+			
+			dtm.addRow(newRow);
+		}
+		table.setModel(dtm);
+		
+		
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBackground(SystemColor.info);
+		scrollPane.setBounds(10, 323, 594, 220);
+		
+		add(scrollPane);
 		
 	}
 	
