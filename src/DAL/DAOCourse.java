@@ -21,60 +21,58 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 	@Override
 	public int insert(Course t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String kind  = t.getKind();
-		int price = t.getPrice();
-		Connector.getInstance().ConnectToDatabase();
-		String query = String.format("Insert into Course(Kind, Price) Values(%s, %d)",kind,price);
-		try {
-			data = Connector.getInstance().ExcecuteNonQuery(query);
-			Connector.getInstance().conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		String query ="Insert into Course(Kind, Price) Values(?, ?)";
+		Connection con = JDBCUtils.getConnection();
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1,t.getKind());
+		stmt.setInt(2, t.getPrice());
+		data = stmt.executeUpdate();
+		stmt.close();
+		JDBCUtils.closeConnection(con);
 		return data;
 	}
 
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
+		
+		Connection con = JDBCUtils.getConnection();
 		String sql = "Delete Course where Id = "+t;
-		Connector.getInstance().ConnectToDatabase();
-		try {
-			data = Connector.getInstance().ExcecuteNonQuery(sql);
-			Connector.getInstance().conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		data = stmt.executeUpdate();
+		stmt.close();
+		JDBCUtils.closeConnection(con);
 		return data;
 	}
 
 	@Override
 	public int update(Course t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		int Id = t.getID();
-		String Kind = t.getKind();
-		int Price = t.getPrice();
-		Connector.getInstance().ConnectToDatabase();
-		try {			
-			String sql = String.format("Update Course Set Kind = %s , Price = %d where Id = %d",Kind,Price,Id);
-			data = Connector.getInstance().ExcecuteNonQuery(sql);
-			Connector.getInstance().conn.close();
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		String sql = "Update Course Set Kind = ? , Price = ? where Id = ?";
+		Connection con = JDBCUtils.getConnection();
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setString(1, t.getKind());
+		stmt.setInt(2, t.getPrice());
+		stmt.setInt(3, t.getID());
+		data = stmt.executeUpdate();
+		
+		stmt.close();
+		JDBCUtils.closeConnection(con);
 		return data;
 	}
 
 	@Override
 	public ArrayList<Course> selectAll() throws SQLException, ClassNotFoundException {
 		ArrayList<Course> courses = new ArrayList<Course>();
-		Connector.getInstance().ConnectToDatabase();
+		
+		Connection con = JDBCUtils.getConnection();
 		String sql = "Select * from Course";
+		PreparedStatement stmt = con.prepareStatement(sql);
+		
+		ResultSet rs = stmt.executeQuery();
 		try {
-			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String kind = rs.getString(2);
@@ -82,7 +80,9 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 				Course course = new Course(id,kind,price);
 				courses.add(course);
 			}
-			Connector.getInstance().conn.close();
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(con);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -92,19 +92,24 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 
 	@Override
 	public Course selectByID(Integer t) throws SQLException, ClassNotFoundException {
-		Connector.getInstance().ConnectToDatabase();
+		Connection con = JDBCUtils.getConnection();
 		Course course = null;
+		
 		String sql = "Select * from Course Where Id = "+t;
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		
 		try {
-			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String kind = rs.getString(2);
 				int price = rs.getInt(3);
 				course = new Course(id,kind,price);
 			}
-			Connector.getInstance().conn.close();
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(con);
 		}
 		catch (Exception e) {
 			e.printStackTrace();

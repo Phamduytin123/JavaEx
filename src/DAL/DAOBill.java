@@ -24,65 +24,58 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 	@Override
 	public int insert(Bill t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		int IdCustomer = t.getIDCustomer();
-		int IdCourse = t.getIDCourse();
-		int IdUser = t.getIDUser();
-		LocalDate DayBook = t.getDayBook();
-		int Total = t.getTotal();
-		Connector.getInstance().ConnectToDatabase();
-		try {			
-			String sql = String.format("Insert into Bill(IdCustomer,IdCourse,IdUser,DateBook,Total) Values(%d,%d,%d,%s,%d)",IdCustomer,IdCourse,IdUser,DayBook,Total);
-			data = Connector.getInstance().ExcecuteNonQuery(sql);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		String sql = String.format("Insert into Bill(IdCustomer,IdCourse,IdUser,DateBook,Total) Values(%d,%d,%d,%s,%d)",t.getIDCustomer(),t.getIDCourse(),t.getDayBook(),t.getTotal());
+		Connection con = JDBCUtils.getConnection();
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		data = stmt.executeUpdate();
+		
+		stmt.close();
+		JDBCUtils.closeConnection(con);
+		
 		return data;
 	}
 
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		Connector.getInstance().ConnectToDatabase();
-		try {
-			String sql = "Delete Bill Where Id = "+t;
-			data = Connector.getInstance().ExcecuteNonQuery(sql);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		String sql = "Delete Bill Where Id = "+t;
+		Connection con = JDBCUtils.getConnection();
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		data = stmt.executeUpdate();
+		stmt.close();
+		JDBCUtils.closeConnection(con);
+		
 		return data;
 	}
 
 	@Override
 	public int update(Bill t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		int Id = t.getID();
-		int IdCustomer = t.getIDCustomer();
-		int IdCourse = t.getIDCourse();
-		int IdUser = t.getIDUser();
-		LocalDate DayBook = t.getDayBook();
-		int Total = t.getTotal();
-		Connector.getInstance().ConnectToDatabase();
-		try {			
-			String sql = String.format("Update Bill Set IdCustomer = %d, IdCourse = %d, IdUser = %d, Total = %d, DateBook = %s where id = %d ",IdCustomer,IdCourse,IdUser,Total,DayBook,Id);
-			data = Connector.getInstance().ExcecuteNonQuery(sql);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		String sql = String.format("Update Bill Set IdCustomer = %d, IdCourse = %d, IdUser = %d, Total = %d, DateBook = %s where id = %d ",t.getIDCustomer(),t.getIDCourse(),t.getIDUser(),t.getTotal(),t.getDayBook(),t.getID());
+		Connection con = JDBCUtils.getConnection();
+		PreparedStatement stmt = con.prepareStatement(sql);
+		
+		data = stmt.executeUpdate();
+		
+		stmt.close();
+		JDBCUtils.closeConnection(con);
+		
 		return data;
 	}
 
 	@Override
 	public ArrayList<Bill> selectAll() throws SQLException, ClassNotFoundException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
+		
+		Connection con = JDBCUtils.getConnection();
 		String query = "Select * from Bill";
-		Connector.getInstance().ConnectToDatabase();
-		ResultSet rs = null;
+		PreparedStatement stmt = con.prepareStatement(query);
+		
+		ResultSet rs = stmt.executeQuery();
 		try {
-			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
-			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				int ID = rs.getInt(1);
 				int IDCustomer = rs.getInt(2);
@@ -94,19 +87,20 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 				bills.add(bill);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return bills;
 	}
 	@Override
 	public Bill selectByID(Integer t) throws SQLException, ClassNotFoundException {
+		Connection con = JDBCUtils.getConnection();
 		String query = "Select * from Bill where Id = "+t;
+		PreparedStatement stmt = con.prepareStatement(query);
+		
+		ResultSet rs = stmt.executeQuery();
+
 		Bill bill = null;
-		Connector.getInstance().ConnectToDatabase();
-		ResultSet rs = null;
 		try {
-			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
-			rs = stmt.executeQuery();
 			while(rs.next()) {
 				int ID = rs.getInt(1);
 				int IDCustomer = rs.getInt(2);
@@ -116,6 +110,9 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 				int Total = rs.getInt(6); 
 				bill = new Bill(ID,IDCustomer,IDCourse,IDUser,DayBook,Total);
 			}
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -19,6 +19,12 @@ public class Customer {
 		PhoneNumber = phoneNumber;
 		Gender = gender;
 	}
+	public Customer( String name, String phoneNumber, String gender) {
+		super();
+		Name = name;
+		PhoneNumber = phoneNumber;
+		Gender = gender;
+	}
 	public int getID() {
 		return ID;
 	}

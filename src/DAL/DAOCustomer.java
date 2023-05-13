@@ -1,8 +1,10 @@
 package DAL;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import DTO.Customer;
@@ -16,87 +18,88 @@ public class DAOCustomer implements DAOUtils<Customer, Integer>{
 	@Override
 	public int insert(Customer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String name= t.getName();
-		String phonenum = t.getPhoneNumber();
-		String gender = t.getGender();
-		Connector.getInstance().ConnectToDatabase();
-		String query = String.format("Insert into Customer(NameCus , PhoneNumber , Gender) Values ( %s, %s, %s)",name,phonenum,gender);
-		try {
-			data = Connector.getInstance().ExcecuteNonQuery(query);
-			Connector.getInstance().conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Connection con = JDBCUtils.getConnection();
+		String query = "Insert into Customer(NameCus , PhoneNumber , Gender) Values ( ?, ?, ?)";
+		PreparedStatement stmt = con.prepareStatement(query);
+		stmt.setString(1, t.getName());
+		stmt.setString(2, t.getPhoneNumber());
+		stmt.setString(3, t.getGender());
+		data = stmt.executeUpdate();
+		stmt.close();
+		JDBCUtils.closeConnection(con);
 		return data;
 	}
 
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		Connector.getInstance().ConnectToDatabase();
-		String query = "Delete Customer where Id = "+t;
-		try {
-			data = Connector.getInstance().ExcecuteNonQuery(query);
-			Connector.getInstance().conn.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		Connection con = JDBCUtils.getConnection();
+		String command ="Delete From Customer Where Id "+t;
+		PreparedStatement psm = con.prepareStatement(command);
+		data = psm.executeUpdate();
+		psm.close();
+		JDBCUtils.closeConnection(con);
 		return data;
 	}
 
 	@Override
 	public int update(Customer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		int id = t.getID();
-		String name = t.getName();
-		String phonenum = t.getPhoneNumber();
-		String gender = t.getGender();
-		String sql = String.format("Update Customer Set NameCus = %s , PhoneNumber = %s , Gender = %s where Id = %d",name,phonenum,gender,id);
-		Connector.getInstance().ConnectToDatabase();
-		try {
-			data = Connector.getInstance().ExcecuteNonQuery(sql);
-			Connector.getInstance().conn.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Connection con = JDBCUtils.getConnection();
+		String sql = "Update Customer Set NameCus = ? , PhoneNumber = ?, Gender = ? where Id = ?";
+		PreparedStatement stmt = con.prepareStatement(sql);
+		
+		stmt.setString(1, t.getName());
+		stmt.setString(2, t.getPhoneNumber());
+		stmt.setString(3, t.getGender());
+		stmt.setInt(4, t.getID());
+		data = stmt.executeUpdate();
+		stmt.close();
+		JDBCUtils.closeConnection(con);
 		return data;
 	}
 
 	@Override
 	public ArrayList<Customer> selectAll() throws SQLException, ClassNotFoundException {
 		ArrayList<Customer> customers = new ArrayList<Customer>();
-		ResultSet rs = null;
-		String query = "Select * from Customer";
-		Connector.getInstance().ConnectToDatabase();
+Connection Conn = JDBCUtils.getConnection(); 
+		
+		String query = "SELECT * FROM Customer";
+		PreparedStatement stmt = Conn.prepareStatement(query);
+		
+		ResultSet rs = stmt.executeQuery();
 		try {
-			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
-			rs = stmt.executeQuery(query);
 			while(rs.next()) {
-				
 				int id = rs.getInt(1);
-				String name = rs.getString(2);
-				String phonenum = rs.getString(3);
-				String gender = rs.getString(4);
-				Customer customer = new Customer(id,name,phonenum,gender);
+				String Name = rs.getString(2);
+				String phoneNumber = rs.getString(3);
+				String Gender = rs.getString(4);
+				Customer customer = new Customer(id,Name,phoneNumber,Gender);
 				customers.add(customer);
-				System.out.println("1");
 			}
-			Connector.getInstance().conn.close();
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(Conn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return customers;
 	}
 
+
 	@Override
 	public Customer selectByID(Integer t) throws SQLException, ClassNotFoundException {
-		Customer customer = null;
-		String query = "Select * from Customer where Id = "+t;
-		ResultSet rs = null;
-		Connector.getInstance().ConnectToDatabase();
+		Connection Conn = JDBCUtils.getConnection(); 
+		
+		String query = "SELECT * FROM Customer WHERE Id = ?";
+		PreparedStatement stmt = Conn.prepareStatement(query);
+		
+		stmt.setInt(1, t);
+
+		Customer customer = new Customer("","","");
+		
+		ResultSet rs = stmt.executeQuery();
 		try {
-			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
-			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String Name = rs.getString(2);
@@ -104,7 +107,9 @@ public class DAOCustomer implements DAOUtils<Customer, Integer>{
 				String Gender = rs.getString(4);
 				customer = new Customer(id,Name,phoneNumber,Gender);
 			}
-			Connector.getInstance().conn.close();
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(Conn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
