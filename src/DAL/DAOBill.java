@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 		int IdCustomer = t.getIDCustomer();
 		int IdCourse = t.getIDCourse();
 		int IdUser = t.getIDUser();
-		Date DayBook = t.getDayBook();
+		LocalDate DayBook = t.getDayBook();
 		int Total = t.getTotal();
 		Connector.getInstance().ConnectToDatabase();
 		try {			
@@ -54,7 +55,7 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 		int IdCustomer = t.getIDCustomer();
 		int IdCourse = t.getIDCourse();
 		int IdUser = t.getIDUser();
-		Date DayBook = t.getDayBook();
+		LocalDate DayBook = t.getDayBook();
 		int Total = t.getTotal();
 		Connector.getInstance().ConnectToDatabase();
 		try {			
@@ -80,7 +81,7 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 				int IDCustomer = rs.getInt(2);
 				int IDCourse = rs.getInt(3);
 				int	IDUser = rs.getInt(4);
-				Date DayBook = rs.getDate(5);
+				LocalDate DayBook = rs.getDate(5).toLocalDate();
 				int Total = rs.getInt(6); 
 				Bill bill = new Bill(ID,IDCustomer,IDCourse,IDUser,DayBook,Total);
 				bills.add(bill);
@@ -103,7 +104,7 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 				int IDCustomer = rs.getInt(2);
 				int IDCourse = rs.getInt(3);
 				int	IDUser = rs.getInt(4);
-				Date DayBook = rs.getDate(5);
+				LocalDate DayBook = rs.getDate(5).toLocalDate();
 				int Total = rs.getInt(6); 
 				bill = new Bill(ID,IDCustomer,IDCourse,IDUser,DayBook,Total);
 			}

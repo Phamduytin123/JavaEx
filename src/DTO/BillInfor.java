@@ -1,13 +1,15 @@
 package DTO;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class BillInfor {
 	private String staffName;
 	private String cusName;
-	private int iiBill;
+	private int idBill;
 	private String courseName;
-	private Date date;
+	private LocalDate date;
 	private int total;
 	public String getStaffName() {
 		return staffName;
@@ -22,10 +24,10 @@ public class BillInfor {
 		this.cusName = cusName;
 	}
 	public int getIiBill() {
-		return iiBill;
+		return idBill;
 	}
 	public void setIiBill(int iiBill) {
-		this.iiBill = iiBill;
+		this.idBill = iiBill;
 	}
 	public String getCourseName() {
 		return courseName;
@@ -33,10 +35,10 @@ public class BillInfor {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 	public int getTotal() {
@@ -45,7 +47,12 @@ public class BillInfor {
 	public void setTotal(int total) {
 		this.total = total;
 	}
-	public BillInfor (int idBill,String cusName, String staffName,String courseName,Date date, int total) {
-	
+	public BillInfor (int idBill,String cusName, String staffName,String courseName, int total) {
+	this.idBill = idBill;
+	this.cusName = cusName;
+	this.staffName = staffName;
+	this.courseName = courseName;
+	this.date = LocalDateTime.now().toLocalDate();
+	this.total = total;
 	}
 }

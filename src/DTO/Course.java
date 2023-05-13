@@ -18,6 +18,11 @@ public class Course {
 		this.Kind = kind;
 		Price = price;
 	}
+	public Course( String kind, int price) {
+		super();
+		this.Kind = kind;
+		Price = price;
+	}
 	public int getID() {
 		return ID;
 	}
