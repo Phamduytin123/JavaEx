@@ -8,8 +8,8 @@ public class JDBCUtil {
 	{
 		Connection connection = null;
 		// Tin
-		String connectionURL = "jdbc:sqlserver://MSI\\SQLEXPRESS:1433;encrypt=true;databaseName=GymCenter;integratedSecurity=true;trustServerCertificate=true;";
-		String user = "MSI\\ADMIN";
+//		String connectionURL = "jdbc:sqlserver://MSI\\SQLEXPRESS:1433;encrypt=true;databaseName=GymCenter;integratedSecurity=true;trustServerCertificate=true;";
+//		String user = "MSI\\ADMIN";
 		
 		// Khoi
 		
