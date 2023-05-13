@@ -86,6 +86,9 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 				Bill bill = new Bill(ID,IDCustomer,IDCourse,IDUser,DayBook,Total);
 				bills.add(bill);
 			}
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(con);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

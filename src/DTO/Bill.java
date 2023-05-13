@@ -37,6 +37,14 @@ public class Bill {
 		DayBook = LocalDate.now();
 		Total = total;
 	}
+	public Bill( int iDCustomer, int iDCourse, int iDUser, int total) {
+		super();
+		IDCustomer = iDCustomer;
+		IDCourse = iDCourse;
+		IDUser = iDUser;
+		DayBook = LocalDate.now();
+		Total = total;
+	}
 	public Bill(int iD, int iDCustomer, int iDCourse, int iDUser,LocalDate dayBook, int total) {
 		super();
 		ID = iD;

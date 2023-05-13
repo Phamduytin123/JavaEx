@@ -23,6 +23,14 @@ public class User {
 		FullName = fullName;
 		Address = address;
 	}
+	public User( String userName, String password, String role, String fullName, String address) {
+		super();
+		UserName = userName;
+		Password = password;
+		Role = role;
+		FullName = fullName;
+		Address = address;
+	}
 	public User() {
 		ID = 0;
 		UserName = "";
