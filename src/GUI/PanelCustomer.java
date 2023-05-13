@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.SystemColor;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JTextField;
@@ -13,6 +15,7 @@ import java.awt.Font;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DTO.Customer;
 import GUI.Listener.CustomerListener;
 import GUI.Listener.EquipmentListener;
 
@@ -36,6 +39,7 @@ public class PanelCustomer extends JPanel {
 	private JButton btnCancel;
 	private JButton btnSave_add;
 	private JButton btnSave_update;
+	private ArrayList<Customer> rows ;
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
@@ -99,7 +103,7 @@ public class PanelCustomer extends JPanel {
 		txtPhonenumber.setBounds(448, 193, 125, 30);
 		add(txtPhonenumber);
 		
-		cbGender = new JComboBox(new Object[] {"Male", "Female"});
+		cbGender = new JComboBox(new Object[] {"Nam", "Nữ"});
 		cbGender.setBackground(SystemColor.textHighlightText);
 		cbGender.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbGender.setBounds(115, 193, 125, 30);
@@ -117,8 +121,21 @@ public class PanelCustomer extends JPanel {
 		    }
 			
 		};
-		model.addRow(new Object[] {"1", "1", "1", "1"});
-		model.addRow(new Object[] {"1", "1", "1", "1"});
+		
+		try {
+			rows = BLL.BLLCustomer.Instance().selectAll();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		for (int i = 0; i < rows.size(); i ++) {
+			int id = rows.get(i).getID();
+			String name = rows.get(i).getName();
+			String gender = rows.get(i).getGender();
+			String phonenumber = rows.get(i).getPhoneNumber();
+			model.addRow(new Object[] {id, name, gender, phonenumber});
+		}
+		
 		
 		tableCus.setModel(model);
 		
@@ -203,6 +220,12 @@ public class PanelCustomer extends JPanel {
 
 		//scrollPane.add(table);
 		SetTextEnable(false);
+	}
+	public ArrayList<Customer> getRows() {
+		return rows;
+	}
+	public void setRows(ArrayList<Customer> rows) {
+		this.rows = rows;
 	}
 	public void AddListener() {
 		tableCus.getSelectionModel().addListSelectionListener(new CustomerListener(this));
