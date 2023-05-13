@@ -2,15 +2,18 @@ package GUI.Listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import GUI.PanelBill;
 
-public class BillListener implements ActionListener, ListSelectionListener,MouseListener {
+public class BillListener implements ActionListener, ListSelectionListener,MouseListener, ItemListener{
 
 	private PanelBill panelBill;
 	public BillListener(PanelBill panelBill) {
@@ -68,7 +71,12 @@ public class BillListener implements ActionListener, ListSelectionListener,Mouse
 		} else
 		if (tmp == panelBill.getBtnAdd()) {
 			if (t.equals("Lưu")) {
-				panelBill.PressSaveAdd();
+				try {
+					panelBill.PressSaveAdd();
+				} catch (ClassNotFoundException | SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		} else
 		if (t.equals("Hủy")) {
@@ -81,8 +89,20 @@ public class BillListener implements ActionListener, ListSelectionListener,Mouse
 			if (t.equals("Lưu")) {
 				panelBill.PressSaveUpdate();
 			}
-		}
+		} 
 
 	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getStateChange() == ItemEvent.SELECTED) {
+				panelBill.setTextPrice(e.getItem().toString());
+
+	      }
+	}
+
+
+
 
 }

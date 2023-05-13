@@ -118,11 +118,9 @@ Connection Conn = JDBCUtils.getConnection();
 	}
 	public Customer selectByPhoneNumber(String phonenum) throws SQLException, ClassNotFoundException {
 		Connection Conn = JDBCUtils.getConnection(); 
+		String sql =String.format("SELECT * FROM Customer WHERE PhoneNumber = N'%s'",phonenum);
+		PreparedStatement stmt = Conn.prepareStatement(sql);
 		
-		String query = "SELECT * FROM Customer WHERE Id = N'?'";
-		PreparedStatement stmt = Conn.prepareStatement(query);
-		
-		stmt.setString(1, phonenum);
 
 		Customer customer = null;
 		

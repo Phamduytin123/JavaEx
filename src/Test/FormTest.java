@@ -1,6 +1,7 @@
 package Test;
 
 import java.awt.EventQueue;
+import java.sql.SQLException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,8 +42,14 @@ public class FormTest extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		
-		PanelBill panelBill = new PanelBill();
-		contentPane.add(panelBill);
+		try {
+			PanelBill panelBill = new PanelBill();
+			contentPane.add(panelBill);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		setContentPane(contentPane);
 	}

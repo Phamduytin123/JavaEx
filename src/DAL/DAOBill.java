@@ -26,10 +26,15 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 	public int insert(Bill t) throws SQLException, ClassNotFoundException {
 		int data = 0;
 		
-		String sql = String.format("Insert into Bill(IdCustomer,IdCourse,IdUser,DateBook,Total) Values(%d,%d,%d,%s,%d)",t.getIDCustomer(),t.getIDCourse(),t.getDayBook(),t.getTotal());
+		String sql = "Insert into Bill(IdCustomer,IdCourse,IdUser,DateBook,Total) Values(?,?,?,?,?)";
 		Connection con = JDBCUtils.getConnection();
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setInt(1, t.getIDCustomer());
+		stmt.setInt(2, t.getIDCourse());
+		stmt.setInt(3, t.getIDUser());
+		stmt.setDate(4,Date.valueOf(t.getDayBook()));
+		stmt.setInt(5, t.getTotal());
 		data = stmt.executeUpdate();
 		
 		stmt.close();

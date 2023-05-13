@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
@@ -97,7 +98,12 @@ public class FormMain extends JFrame implements ActionListener {
 		panelUser.setBounds(189, 0, 671, 553);
 		contentPane.add(panelUser);
 		
-		panelBill = new PanelBill();
+		try {
+			panelBill = new PanelBill();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		panelBill.setLayout(null);
 		panelBill.setBounds(189, 0, 671, 553);
 		contentPane.add(panelBill);

@@ -8,19 +8,19 @@ import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import DTO.Bill;
+import BLL.BLLBill;
+import BLL.BLLCourse;
+import BLL.BLLCustomer;
 import DTO.BillInfor;
+import DTO.Course;
 import GUI.Listener.BillListener;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
@@ -44,6 +44,8 @@ public class PanelBill extends JPanel {
 	private JComboBox<String> cbbCourse,cbbCourseInfor;
 	private JTextField textField;
 	private JRadioButton rdoHetHan;
+	private ArrayList<BillInfor> data = BLLBill.Instance().getAllBillInfor();
+	private ArrayList<Course> dataCourse = BLLCourse.Instance().selectAll();
 
 	/**
 	 * Create the panel.
@@ -51,7 +53,7 @@ public class PanelBill extends JPanel {
 	
 	
 	
-	public PanelBill() {
+	public PanelBill()  throws SQLException, ClassNotFoundException {
 		setBackground(new Color(255, 255, 255));
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBounds(188, 0, 614, 553);
@@ -75,9 +77,9 @@ public class PanelBill extends JPanel {
 		lblNewLabel_1.setBounds(10, 21, 83, 26);
 		panel.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_1_1 = new JLabel("SDTKhách hàng");
+		JLabel lblNewLabel_1_1 = new JLabel("SDT Khách hàng");
 		lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNewLabel_1_1.setBounds(10, 68, 83, 26);
+		lblNewLabel_1_1.setBounds(10, 68, 117, 26);
 		panel.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("Nhân viên");
@@ -101,18 +103,18 @@ public class PanelBill extends JPanel {
 		panel.add(lblNewLabel_1_1_4);
 
 		txtID = new JTextField();
-		txtID.setBounds(100, 21, 126, 23);
+		txtID.setBounds(127, 21, 126, 23);
 		panel.add(txtID);
 		txtID.setColumns(10);
 
 		txtCus = new JTextField();
 		txtCus.setColumns(10);
-		txtCus.setBounds(100, 68, 126, 23);
+		txtCus.setBounds(127, 68, 126, 23);
 		panel.add(txtCus);
 
 		txtUser = new JTextField();
 		txtUser.setColumns(10);
-		txtUser.setBounds(100, 115, 126, 23);
+		txtUser.setBounds(127, 115, 126, 23);
 		panel.add(txtUser);
 
 		txtDate = new JTextField();
@@ -200,13 +202,25 @@ public class PanelBill extends JPanel {
 
 		dtm = new DefaultTableModel(columnNames, 0);
 		
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < data.size(); i++) {
+			int ID = data.get(i).getIdBill();
+			String cusName = data.get(i).getCusName();
+			String staffName = data.get(i).getStaffName();
+			String courseName = data.get(i).getKind();
+			LocalDate Day = data.get(i).getDate();
+			int Total = data.get(i).getTotal();
 
-			Object [] newRow = {1,1,1,1};
+			Object [] newRow = {ID,cusName,staffName,courseName,Day, Total};
 			
 			dtm.addRow(newRow);
 		}
 		table.setModel(dtm);
+		
+		for (int i = 0; i < dataCourse.size(); i++) {
+			cbbCourseInfor.addItem(dataCourse.get(i).getKind());
+			cbbCourse.addItem(dataCourse.get(i).getKind());
+		}
+		
 		
 		
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -231,14 +245,12 @@ public class PanelBill extends JPanel {
 	public void SetTextEditable() {
 		cbbCourseInfor.setEnabled(true);
 		txtCus.setEditable(true);
-		txtDate.setEditable(true);
 		txtTotal.setEditable(true);
-		txtUser.setEditable(true);
 	}
 
 	public void SetTextInfor(int index) {
 		txtID.setText(table.getValueAt(index, 0)+"");
-		txtCus.setText(table.getValueAt(index, 1)+"");
+		txtCus.setText(data.get(index).getPhonenum());
 		txtUser.setText(table.getValueAt(index, 2)+"");
 		cbbCourseInfor.setSelectedItem(table.getValueAt(index, 3)+"");
 		txtDate.setText(table.getValueAt(index, 4)+"");
@@ -250,6 +262,7 @@ public class PanelBill extends JPanel {
 		btnAdd.addActionListener(new BillListener(this));
 		btnCancel.addActionListener(new BillListener(this));
 		btnUpdate.addActionListener(new BillListener(this));
+		cbbCourseInfor.addItemListener(new BillListener(this));
 	}
 	
 	public void PressCancel() {
@@ -272,14 +285,20 @@ public class PanelBill extends JPanel {
 		
 	}
 	
-	public void PressSaveAdd() {
-//		String cusName = txtCus.getText();
-//		String staffName = txtUser.getText();
-//		String courseName = cbbCourseInfor.getSelectedItem().toString();
-//		String DOB = txtDate.getText();
-//		int total = Integer.parseInt(txtTotal.getText());
-//		
-//		LocalDate date = LocalDate.now();
+	public void PressSaveAdd() throws ClassNotFoundException, SQLException {
+		String cusName = txtCus.getText();
+		String staffName = txtUser.getText();
+		String courseName = cbbCourseInfor.getSelectedItem().toString();
+		LocalDate date = LocalDate.now();
+		int total = Integer.parseInt(txtTotal.getText());
+		
+		
+		BLLBill.Instance().insert(BLLCustomer.Instance().selectByPhone(cusName).getID(), BLLCourse.Instance().selectAll(courseName).get(0).getID(), 2, total);
+		data = BLLBill.Instance().getAllBillInfor();
+		Object[]  newRow = {data.get(data.size()-1).getIdBill(),BLLCustomer.Instance().selectByPhone(cusName).getName(),staffName,courseName,date.toString(),total};
+		dtm.addRow(newRow);
+		table.revalidate();
+		table.repaint();
 		
 		SetTextUnEditable();
 		btnUpdate.setEnabled(true);
@@ -299,6 +318,16 @@ public class PanelBill extends JPanel {
 		btnAdd.setEnabled(true);
 		btnCancel.setEnabled(false);
 		btnUpdate.setText("Sửa");
+	}
+	
+	public void setTextPrice( String value) {
+		System.out.println(value);
+		try {
+			txtTotal.setText(BLLCourse.Instance().selectAll(value).get(0).getPrice()+"");
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
 	}
 	
 	public void PressSearchCourse() {

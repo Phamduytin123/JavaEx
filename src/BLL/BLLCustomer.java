@@ -58,4 +58,13 @@ public class BLLCustomer {
 	public ArrayList<Customer> selectAll() throws ClassNotFoundException, SQLException{
 		return DAOCustomer.getInstance().selectAll();
 	}
+	public Customer selectByPhone(String phone)  {
+		try {
+			return DAOCustomer.getInstance().selectByPhoneNumber(phone);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
