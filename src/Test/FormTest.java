@@ -23,7 +23,7 @@ public class FormTest extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PanelEquipment frame = new PanelEquipment();
+					FormTest frame = new FormTest();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

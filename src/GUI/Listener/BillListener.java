@@ -30,7 +30,15 @@ public class BillListener implements ActionListener, ListSelectionListener,Mouse
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		if (e.getSource() == panelBill.getLblSearchCourse()) {
+			panelBill.PressSearchCourse();
+		} else
+		if (e.getSource() == panelBill.getLblScPhone()) {
+			panelBill.PressSearchPhone();
+		} else
+		if (e.getSource() == panelBill.getLblScHan()) {
+			panelBill.PressSearchHetHan();
+		}
 	}
 
 	@Override
@@ -89,7 +97,10 @@ public class BillListener implements ActionListener, ListSelectionListener,Mouse
 			if (t.equals("Lưu")) {
 				panelBill.PressSaveUpdate();
 			}
-		} 
+		} else
+		if (tmp == panelBill.getBtnReset()) {
+			panelBill.PressReset();
+		}
 
 	}
 

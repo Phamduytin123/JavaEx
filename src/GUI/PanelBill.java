@@ -21,6 +21,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
@@ -36,13 +37,13 @@ public class PanelBill extends JPanel {
 	private JTextField txtUser;
 	private JTextField txtDate;
 	private JTextField txtTotal;
-	
+
 	private DefaultTableModel dtm;
 	private JTable table;
 	private JButton btnAdd, btnCancel, btnUpdate, btnReset;
-	private JLabel lblSearchCourse, lblScPhone,lblScHan;
-	private JComboBox<String> cbbCourse,cbbCourseInfor;
-	private JTextField textField;
+	private JLabel lblSearchCourse, lblScPhone, lblScHan;
+	private JComboBox<String> cbbCourse, cbbCourseInfor;
+	private JTextField txtPhoneSc;
 	private JRadioButton rdoHetHan;
 	private ArrayList<BillInfor> data = BLLBill.Instance().getAllBillInfor();
 	private ArrayList<Course> dataCourse = BLLCourse.Instance().selectAll();
@@ -50,10 +51,8 @@ public class PanelBill extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	
-	
-	
-	public PanelBill()  throws SQLException, ClassNotFoundException {
+
+	public PanelBill() throws SQLException, ClassNotFoundException {
 		setBackground(new Color(255, 255, 255));
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBounds(188, 0, 614, 553);
@@ -126,7 +125,7 @@ public class PanelBill extends JPanel {
 		txtTotal.setColumns(10);
 		txtTotal.setBounds(427, 115, 126, 23);
 		panel.add(txtTotal);
-		
+
 		cbbCourseInfor = new JComboBox<String>();
 		cbbCourseInfor.setBounds(427, 24, 126, 24);
 		panel.add(cbbCourseInfor);
@@ -169,39 +168,39 @@ public class PanelBill extends JPanel {
 		lblNewLabel_2.setBounds(142, 14, 39, 19);
 		panel_1.add(lblNewLabel_2);
 
-		textField = new JTextField();
-		textField.setBounds(175, 9, 107, 28);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		txtPhoneSc = new JTextField();
+		txtPhoneSc.setBounds(175, 9, 107, 28);
+		panel_1.add(txtPhoneSc);
+		txtPhoneSc.setColumns(10);
 
 		lblScPhone = new JLabel("");
 		lblScPhone.setIcon(new ImageIcon(PanelBill.class.getResource("/photo/SearchImage1.png")));
 		lblScPhone.setBounds(292, 11, 25, 25);
 		panel_1.add(lblScPhone);
-		
+
 		btnReset = new JButton("Reset");
 		btnReset.setBackground(new Color(255, 255, 0));
 		btnReset.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		btnReset.setBounds(512, 9, 72, 29);
 		panel_1.add(btnReset);
-		
-		 lblScHan = new JLabel("");
+
+		lblScHan = new JLabel("");
 		lblScHan.setBounds(443, 11, 25, 25);
 		lblScHan.setIcon(new ImageIcon(PanelBill.class.getResource("/photo/SearchImage1.png")));
 		panel_1.add(lblScHan);
-		
+
 		rdoHetHan = new JRadioButton("Hết hạn");
 		rdoHetHan.setBackground(new Color(255, 128, 128));
 		rdoHetHan.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		rdoHetHan.setBounds(351, 12, 77, 23);
 		panel_1.add(rdoHetHan);
-		
+
 		table = new JTable();
-		
-		String[] columnNames = { "ID","Khách hàng","Nhân viên","Khóa tập","Ngày","Tổng tiền" };
+
+		String[] columnNames = { "ID", "Khách hàng", "Nhân viên", "Khóa tập", "Ngày", "Tổng tiền" };
 
 		dtm = new DefaultTableModel(columnNames, 0);
-		
+
 		for (int i = 0; i < data.size(); i++) {
 			int ID = data.get(i).getIdBill();
 			String cusName = data.get(i).getCusName();
@@ -210,38 +209,37 @@ public class PanelBill extends JPanel {
 			LocalDate Day = data.get(i).getDate();
 			int Total = data.get(i).getTotal();
 
-			Object [] newRow = {ID,cusName,staffName,courseName,Day, Total};
-			
+			Object[] newRow = { ID, cusName, staffName, courseName, Day, Total };
+
 			dtm.addRow(newRow);
 		}
 		table.setModel(dtm);
-		
+
 		for (int i = 0; i < dataCourse.size(); i++) {
 			cbbCourseInfor.addItem(dataCourse.get(i).getKind());
 			cbbCourse.addItem(dataCourse.get(i).getKind());
 		}
-		
-		
-		
+
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBackground(SystemColor.info);
 		scrollPane.setBounds(10, 323, 594, 220);
-		
+
 		add(scrollPane);
 		AddListener();
 		SetTextUnEditable();
 		btnCancel.setEnabled(false);
 	}
-	
+
 	public void SetTextUnEditable() {
 		txtID.setEditable(false);
 		txtCus.setEditable(false);
 		txtUser.setEditable(false);
 		txtDate.setEditable(false);
 		txtTotal.setEditable(false);
+		cbbCourseInfor.setEnabled(false);
 	}
-	
+
 	public void SetTextEditable() {
 		cbbCourseInfor.setEnabled(true);
 		txtCus.setEditable(true);
@@ -249,22 +247,34 @@ public class PanelBill extends JPanel {
 	}
 
 	public void SetTextInfor(int index) {
-		txtID.setText(table.getValueAt(index, 0)+"");
+		txtID.setText(table.getValueAt(index, 0) + "");
 		txtCus.setText(data.get(index).getPhonenum());
-		txtUser.setText(table.getValueAt(index, 2)+"");
-		cbbCourseInfor.setSelectedItem(table.getValueAt(index, 3)+"");
-		txtDate.setText(table.getValueAt(index, 4)+"");
-		txtTotal.setText(table.getValueAt(index, 5)+"");
+		txtUser.setText(table.getValueAt(index, 2) + "");
+		cbbCourseInfor.setSelectedItem(table.getValueAt(index, 3) + "");
+		txtDate.setText(table.getValueAt(index, 4) + "");
+		txtTotal.setText(table.getValueAt(index, 5) + "");
 	}
-	
+
+	public void SetTextNull() {
+		txtID.setText("");
+		txtCus.setText("");
+		txtUser.setText("");
+		txtDate.setText("");
+		txtTotal.setText("");
+	}
+
 	public void AddListener() {
 		table.getSelectionModel().addListSelectionListener(new BillListener(this));
 		btnAdd.addActionListener(new BillListener(this));
 		btnCancel.addActionListener(new BillListener(this));
 		btnUpdate.addActionListener(new BillListener(this));
+		btnReset.addActionListener(new BillListener(this));
+		lblSearchCourse.addMouseListener(new BillListener(this));
+		lblScPhone.addMouseListener(new BillListener(this));
+		lblScHan.addMouseListener(new BillListener(this));
 		cbbCourseInfor.addItemListener(new BillListener(this));
 	}
-	
+
 	public void PressCancel() {
 		SetTextUnEditable();
 		btnCancel.setEnabled(false);
@@ -273,75 +283,199 @@ public class PanelBill extends JPanel {
 		btnAdd.setText("Thêm");
 		btnUpdate.setText("Sửa");
 	}
-	
+
 	public void PressAdd() {
+		SetTextNull();
 		SetTextEditable();
 		btnUpdate.setEnabled(false);
 		btnCancel.setEnabled(true);
 		btnAdd.setText("Lưu");
 	}
-	
-	public void PressSearch() {
-		
-	}
-	
+
 	public void PressSaveAdd() throws ClassNotFoundException, SQLException {
 		String cusName = txtCus.getText();
 		String staffName = txtUser.getText();
 		String courseName = cbbCourseInfor.getSelectedItem().toString();
 		LocalDate date = LocalDate.now();
 		int total = Integer.parseInt(txtTotal.getText());
-		
-		
-		BLLBill.Instance().insert(BLLCustomer.Instance().selectByPhone(cusName).getID(), BLLCourse.Instance().selectAll(courseName).get(0).getID(), 2, total);
+
+		BLLBill.Instance().insert(BLLCustomer.Instance().selectByPhone(cusName).getID(),
+				BLLCourse.Instance().selectAll(courseName).get(0).getID(), 2, total);
 		data = BLLBill.Instance().getAllBillInfor();
-		Object[]  newRow = {data.get(data.size()-1).getIdBill(),BLLCustomer.Instance().selectByPhone(cusName).getName(),staffName,courseName,date.toString(),total};
+		Object[] newRow = { data.get(data.size() - 1).getIdBill(),
+				BLLCustomer.Instance().selectByPhone(cusName).getName(), staffName, courseName, date.toString(),
+				total };
 		dtm.addRow(newRow);
 		table.revalidate();
 		table.repaint();
-		
+
 		SetTextUnEditable();
 		btnUpdate.setEnabled(true);
 		btnCancel.setEnabled(false);
 		btnAdd.setText("Thêm");
 	}
-	
+
 	public void PressUpdate() {
-		SetTextEditable();
-		btnAdd.setEnabled(false);
-		btnCancel.setEnabled(true);
-		btnUpdate.setText("Lưu");
+		int indexRow = table.getSelectedRow();
+		if (indexRow != -1) {
+
+			SetTextEditable();
+			btnAdd.setEnabled(false);
+			btnCancel.setEnabled(true);
+			btnUpdate.setText("Lưu");
+		}
 	}
-	
+
 	public void PressSaveUpdate() {
-		SetTextUnEditable();
-		btnAdd.setEnabled(true);
-		btnCancel.setEnabled(false);
-		btnUpdate.setText("Sửa");
+		int indexRow = table.getSelectedRow();
+		if (indexRow != -1) {
+
+			int ID = Integer.parseInt(txtID.getText());
+			String cusName = txtCus.getText();
+			String courseName = cbbCourseInfor.getSelectedItem().toString();
+			LocalDate date = LocalDate.now();
+			int total = Integer.parseInt(txtTotal.getText());
+
+			try {
+				BLLBill.Instance().update(ID, BLLCustomer.Instance().selectByPhone(cusName).getID(),
+						BLLCourse.Instance().selectAll(courseName).get(0).getID(), 2, date, total);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			dtm.setValueAt(BLLCustomer.Instance().selectByPhone(cusName).getName(), indexRow, 1);
+			dtm.setValueAt(courseName, indexRow, 3);
+			dtm.setValueAt(total, indexRow, 5);
+
+			table.revalidate();
+			table.repaint();
+
+			try {
+				data = BLLBill.Instance().getAllBillInfor();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			SetTextUnEditable();
+			btnAdd.setEnabled(true);
+			btnCancel.setEnabled(false);
+			btnUpdate.setText("Sửa");
+		}
+
 	}
-	
-	public void setTextPrice( String value) {
+
+	public void setTextPrice(String value) {
 		System.out.println(value);
 		try {
-			txtTotal.setText(BLLCourse.Instance().selectAll(value).get(0).getPrice()+"");
+			txtTotal.setText(BLLCourse.Instance().selectAll(value).get(0).getPrice() + "");
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		};
+		}
 	}
-	
+
 	public void PressSearchCourse() {
-		
+		int n = dtm.getRowCount();
+		for (int i = 0; i < n; i++) {
+			dtm.removeRow(0);
+		}
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i).getKind().equals(cbbCourse.getSelectedItem().toString())) {
+				int ID = data.get(i).getIdBill();
+				String cusName = data.get(i).getCusName();
+				String staffName = data.get(i).getStaffName();
+				String courseName = data.get(i).getKind();
+				LocalDate Day = data.get(i).getDate();
+				int Total = data.get(i).getTotal();
+
+				Object[] newRow = { ID, cusName, staffName, courseName, Day, Total };
+
+				dtm.addRow(newRow);
+			}
+		}
 	}
-	
+
+	public void PressReset() {
+		int n = dtm.getRowCount();
+		for (int i = 0; i < n; i++) {
+			dtm.removeRow(0);
+		}
+		for (int i = 0; i < data.size(); i++) {
+			int ID = data.get(i).getIdBill();
+			String cusName = data.get(i).getCusName();
+			String staffName = data.get(i).getStaffName();
+			String courseName = data.get(i).getKind();
+			LocalDate Day = data.get(i).getDate();
+			int Total = data.get(i).getTotal();
+
+			Object[] newRow = { ID, cusName, staffName, courseName, Day, Total };
+
+			dtm.addRow(newRow);
+		}
+	}
+
 	public void PressSearchPhone() {
-		
+		if (!txtPhoneSc.getText().isEmpty()) {
+			int n = dtm.getRowCount();
+			for (int i = 0; i < n; i++) {
+				dtm.removeRow(0);
+			}
+			for (int i = 0; i < data.size(); i++) {
+				if (data.get(i).getPhonenum().equals(txtPhoneSc.getText())) {
+					int ID = data.get(i).getIdBill();
+					String cusName = data.get(i).getCusName();
+					String staffName = data.get(i).getStaffName();
+					String courseName = data.get(i).getKind();
+					LocalDate Day = data.get(i).getDate();
+					int Total = data.get(i).getTotal();
+
+					Object[] newRow = { ID, cusName, staffName, courseName, Day, Total };
+
+					dtm.addRow(newRow);
+				}
+			}
+		}
 	}
-	
+
 	public void PressSearchHetHan() {
-		
+		if(rdoHetHan.isSelected() == true) {
+			int n = dtm.getRowCount();
+			for (int i = 0; i < n; i++) {
+				dtm.removeRow(0);
+			}
+			for (int i = 0; i < data.size(); i++) {
+				
+				int dayCount = 0;
+				if (data.get(i).getKind().equals("7 ngày")) {
+					dayCount = 7;
+				} else if (data.get(i).getKind().equals("14 ngày")) {
+					dayCount = 14;
+				} else if (data.get(i).getKind().equals("1 tháng")) {
+					dayCount = 30;
+				} else if (data.get(i).getKind().equals("6 tháng")) {
+					dayCount = 180;
+				} else if (data.get(i).getKind().equals("1 năm")) {
+					dayCount = 360;
+				}
+				
+				if (LocalDate.now().compareTo(data.get(i).getDate().plus(dayCount,ChronoUnit.DAYS)) >= 0 ) {
+					int ID = data.get(i).getIdBill();
+					String cusName = data.get(i).getCusName();
+					String staffName = data.get(i).getStaffName();
+					String courseName = data.get(i).getKind();
+					LocalDate Day = data.get(i).getDate();
+					int Total = data.get(i).getTotal();
+
+					Object[] newRow = { ID, cusName, staffName, courseName, Day, Total };
+
+					dtm.addRow(newRow);
+				}
+			}
+		}
 	}
-	
+
 	public JTable getTable() {
 		return table;
 	}
@@ -373,7 +507,6 @@ public class PanelBill extends JPanel {
 	public void setTxtUser(JTextField txtUser) {
 		this.txtUser = txtUser;
 	}
-
 
 	public JButton getBtnReset() {
 		return btnReset;
@@ -464,11 +597,19 @@ public class PanelBill extends JPanel {
 	}
 
 	public JTextField getTextField() {
-		return textField;
+		return txtPhoneSc;
 	}
 
 	public void setTextField(JTextField textField) {
-		this.textField = textField;
+		this.txtPhoneSc = textField;
+	}
+
+	public JTextField getTxtPhoneSc() {
+		return txtPhoneSc;
+	}
+
+	public void setTxtPhoneSc(JTextField txtPhoneSc) {
+		this.txtPhoneSc = txtPhoneSc;
 	}
 
 }

@@ -60,9 +60,16 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 	@Override
 	public int update(Bill t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String sql = String.format("Update Bill Set IdCustomer = %d, IdCourse = %d, IdUser = %d, Total = %d, DateBook = %s where id = %d ",t.getIDCustomer(),t.getIDCourse(),t.getIDUser(),t.getTotal(),t.getDayBook(),t.getID());
+		String sql = "Update Bill Set IdCustomer = ?, IdCourse = ?, IdUser = ?, Total = ?, DateBook = ? where id = ? ";
 		Connection con = JDBCUtils.getConnection();
 		PreparedStatement stmt = con.prepareStatement(sql);
+		
+		stmt.setInt(1,t.getIDCustomer());
+		stmt.setInt(2, t.getIDCourse());
+		stmt.setInt(3, t.getIDUser());
+		stmt.setInt(4, t.getTotal());
+		stmt.setDate(5, Date.valueOf(t.getDayBook()));
+		stmt.setInt(6, t.getID());
 		
 		data = stmt.executeUpdate();
 		
