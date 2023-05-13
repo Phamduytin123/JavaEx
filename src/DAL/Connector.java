@@ -19,50 +19,40 @@ public class Connector {
 			instance = new Connector();
 		return instance;
 	}
-	
 	public Connection getConn() {
 		return conn;
 	}
-
-
 
 	public void setConn(Connection conn) {
 		this.conn = conn;
 	}
 
-
-
 	public Statement getStatement() {
 		return statement;
 	}
-
-
 
 	public void setStatement(Statement statement) {
 		this.statement = statement;
 	}
 
-
-
 	public ResultSet getResult() {
 		return result;
 	}
-
-
 
 	public void setResult(ResultSet result) {
 		this.result = result;
 	}
 
 
-
-	public Connector() {}
+	public Connector() 
+	{
+	}
 	
 	public void ConnectToDatabase() {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			String connectionUrl=
-					"jdbc:sqlserver://localhost:1433;DatabaseName=PBL3new;user=sa;password=123123;encrypt=false;";
+					"jdbc:sqlserver://localhost:1433;DatabaseName=GymCenter";
 			conn= DriverManager.getConnection(connectionUrl);
 			statement=conn.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -92,19 +82,4 @@ public class Connector {
 		return rowCount;
 	}
 
-	public ResultSet excuteQuery(String sqlCommand) {
-		this.ConnectToDatabase();
-		try {
-			PreparedStatement statement = conn.prepareStatement(sqlCommand);
-			 instance.result = statement.executeQuery();
-			 instance.result.close();
-			 statement.close();
-			 instance.conn.close();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-	
 }

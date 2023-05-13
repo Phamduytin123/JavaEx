@@ -2,6 +2,7 @@ package DAL;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -72,7 +73,8 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 		Connector.getInstance().ConnectToDatabase();
 		String sql = "Select * from Course";
 		try {
-			ResultSet rs = Connector.getInstance().excuteQuery(sql);
+			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String kind = rs.getString(2);
@@ -94,7 +96,8 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 		Course course = null;
 		String sql = "Select * from Course Where Id = "+t;
 		try {
-			ResultSet rs = Connector.getInstance().excuteQuery(sql);
+			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String kind = rs.getString(2);

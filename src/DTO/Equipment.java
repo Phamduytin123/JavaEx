@@ -21,6 +21,12 @@ public class Equipment {
 		Price = price;
 		Quantity = quantity;
 	}
+	public Equipment(String name, int price, int quantity) {
+		super();
+		Name = name;
+		Price = price;
+		Quantity = quantity;
+	}
 	public void setID(int iD) {
 		ID = iD;
 	}

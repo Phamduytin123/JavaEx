@@ -1,5 +1,6 @@
 package DAL;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -66,7 +67,8 @@ public class DAOUser implements DAOUtils<User, Integer> {
 		String query = "Select * from UserAccount";
 		ResultSet rs = null;
 		try {
-			rs = Connector.getInstance().excuteQuery(query);
+			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
+			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String username = rs.getString(2);
@@ -91,7 +93,8 @@ public class DAOUser implements DAOUtils<User, Integer> {
 		String query = "Select * from UserAccount Where Id = "+t;
 		ResultSet rs = null;
 		try {
-			rs = Connector.getInstance().excuteQuery(query);
+			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
+			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				int id = rs.getInt(1);
 				String username = rs.getString(2);

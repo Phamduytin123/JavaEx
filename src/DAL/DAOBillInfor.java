@@ -1,5 +1,6 @@
 package DAL;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import DTO.BillInfor;
@@ -21,7 +22,8 @@ public class DAOBillInfor  {
 				+ "	Where  b.ID  = %d and b.IDCustomer = c.ID and b.IDUser = ua.ID and b.IDCourse = co.ID",id);
 		ResultSet rs = null;
 		try {
-			rs = Connector.getInstance().excuteQuery(query);
+			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
+			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				
 				

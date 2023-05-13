@@ -14,6 +14,12 @@ import DTO.Bill;
 import DTO.Course;
 
 public class DAOBill implements DAOUtils<Bill, Integer>{
+	private static DAOBill instance;
+	public static DAOBill Instance() {
+		if(instance == null)
+			instance = new DAOBill();
+		return instance;
+	}
 
 	@Override
 	public int insert(Bill t) throws SQLException, ClassNotFoundException {
@@ -75,7 +81,8 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 		Connector.getInstance().ConnectToDatabase();
 		ResultSet rs = null;
 		try {
-			rs = Connector.getInstance().excuteQuery(query);
+			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
+			rs = stmt.executeQuery(query);
 			while(rs.next()) {
 				int ID = rs.getInt(1);
 				int IDCustomer = rs.getInt(2);
@@ -98,7 +105,8 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 		Connector.getInstance().ConnectToDatabase();
 		ResultSet rs = null;
 		try {
-			rs = Connector.getInstance().excuteQuery(query);
+			PreparedStatement stmt = Connector.getInstance().conn.prepareStatement(query);
+			rs = stmt.executeQuery();
 			while(rs.next()) {
 				int ID = rs.getInt(1);
 				int IDCustomer = rs.getInt(2);
