@@ -42,8 +42,8 @@ public class BLLCustomer {
 					JOptionPane.showMessageDialog(null, "Xóa khách hàng thành công");
 				else
 					JOptionPane.showMessageDialog(null, "Xóa khách hàng thất bại");
-			} catch (HeadlessException | ClassNotFoundException | SQLException e) {
-				// TODO Auto-generated catch block
+			} 
+			catch (HeadlessException | ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
 		}

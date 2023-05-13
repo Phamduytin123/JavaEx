@@ -76,13 +76,11 @@ public ArrayList<BillInfor> selectAllBillInfo() throws SQLException {
 		}
 		return billinfors;
 	}
-	public ArrayList<BillInfor> selectBillInfoByPhoneNumber(String phonenum) {
-		
-		//ArrayList<BillInfor> allBillInfors = this
-		
-		ArrayList<BillInfor> billinfors = new ArrayList<BillInfor>();
-		
-		
-		return billinfors;
-	}
+//	public ArrayList<BillInfor> selectBillInfoByPhoneNumber(String phonenum) {
+//		
+//		ArrayList<BillInfor> billinfors = new ArrayList<BillInfor>();
+//		
+//		
+//		return billinfors;
+//	}
 }

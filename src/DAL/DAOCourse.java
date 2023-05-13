@@ -37,7 +37,7 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 		int data = 0;
 		
 		Connection con = JDBCUtils.getConnection();
-		String sql = "Delete Course where Id = "+t;
+		String sql = "Delete From Course where Id = "+t;
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
 		data = stmt.executeUpdate();

@@ -41,7 +41,7 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String sql = "Delete Bill Where Id = "+t;
+		String sql = "Delete From Bill Where Id = "+t;
 		Connection con = JDBCUtils.getConnection();
 		
 		PreparedStatement stmt = con.prepareStatement(sql);

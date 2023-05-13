@@ -35,7 +35,7 @@ public class DAOEquipment implements DAOUtils<Equipment, Integer>{
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String query = "Delete Equipment Where Id = "+t;
+		String query = "Delete From Equipment Where Id = "+t;
 		Connection con = JDBCUtils.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		data = stmt.executeUpdate();
