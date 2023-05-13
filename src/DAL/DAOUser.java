@@ -9,13 +9,11 @@ import java.util.ArrayList;
 import DTO.User;
 
 public class DAOUser implements DAOUtils<User, Integer> {
-	private static DAOUser instance;
-	public static DAOUser Instance() {
-		if(instance == null)
-			instance = new DAOUser();
+	private static DAOUser instance = new DAOUser();
+	public static DAOUser getInstance()
+	{
 		return instance;
 	}
-
 	@Override
 	public int insert(User t) throws SQLException, ClassNotFoundException {
 		int data = 0;

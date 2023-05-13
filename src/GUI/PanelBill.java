@@ -7,9 +7,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import DTO.Bill;
+import GUI.Listener.BillListener;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -21,15 +31,14 @@ public class PanelBill extends JPanel {
 	private JTextField txtID;
 	private JTextField txtCus;
 	private JTextField txtUser;
-	private JTextField txtCourse;
 	private JTextField txtDate;
 	private JTextField txtTotal;
 	
 	private DefaultTableModel dtm;
 	private JTable table;
-	private JButton btnAdd, btnCancel, btnUpdate, btnDel;
+	private JButton btnAdd, btnCancel, btnUpdate, btnReset;
 	private JLabel lblSearchCourse, lblScPhone,lblScHan;
-	private JComboBox<String> cbbCourse,cbbDay;
+	private JComboBox<String> cbbCourse,cbbDay,cbbCourseInfor;
 	private JTextField textField;
 	private JLabel lblNewLabel_3;
 
@@ -103,11 +112,6 @@ public class PanelBill extends JPanel {
 		txtUser.setBounds(100, 115, 126, 23);
 		panel.add(txtUser);
 
-		txtCourse = new JTextField();
-		txtCourse.setColumns(10);
-		txtCourse.setBounds(427, 21, 126, 23);
-		panel.add(txtCourse);
-
 		txtDate = new JTextField();
 		txtDate.setColumns(10);
 		txtDate.setBounds(427, 68, 126, 23);
@@ -117,29 +121,27 @@ public class PanelBill extends JPanel {
 		txtTotal.setColumns(10);
 		txtTotal.setBounds(427, 115, 126, 23);
 		panel.add(txtTotal);
-
-		btnDel = new JButton("Xóa");
-		btnDel.setBackground(new Color(255, 0, 0));
-		btnDel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnDel.setBounds(515, 225, 89, 29);
-		add(btnDel);
+		
+		cbbCourseInfor = new JComboBox<String>();
+		cbbCourseInfor.setBounds(427, 24, 126, 24);
+		panel.add(cbbCourseInfor);
 
 		btnUpdate = new JButton("Sửa");
 		btnUpdate.setBackground(new Color(255, 128, 0));
 		btnUpdate.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnUpdate.setBounds(416, 224, 89, 29);
+		btnUpdate.setBounds(490, 224, 89, 29);
 		add(btnUpdate);
 
 		btnAdd = new JButton("Thêm");
 		btnAdd.setBackground(new Color(0, 255, 0));
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnAdd.setBounds(310, 224, 89, 29);
+		btnAdd.setBounds(384, 224, 89, 29);
 		add(btnAdd);
 
 		btnCancel = new JButton("Hủy");
 		btnCancel.setBackground(new Color(192, 192, 192));
 		btnCancel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnCancel.setBounds(211, 224, 89, 29);
+		btnCancel.setBounds(277, 224, 89, 29);
 		add(btnCancel);
 
 		JPanel panel_1 = new JPanel();
@@ -172,7 +174,7 @@ public class PanelBill extends JPanel {
 		lblScPhone.setBounds(292, 11, 25, 25);
 		panel_1.add(lblScPhone);
 		
-		JButton btnReset = new JButton("Reset");
+		btnReset = new JButton("Reset");
 		btnReset.setBackground(new Color(255, 255, 0));
 		btnReset.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		btnReset.setBounds(512, 9, 72, 29);
@@ -194,7 +196,7 @@ public class PanelBill extends JPanel {
 		
 		table = new JTable();
 		
-		String[] columnNames = { "ID","Tên","SDT","Giới tính" };
+		String[] columnNames = { "ID","Khách hàng","Nhân viên","Khóa tập","Ngày","Tổng tiền" };
 
 		dtm = new DefaultTableModel(columnNames, 0);
 		
@@ -213,20 +215,21 @@ public class PanelBill extends JPanel {
 		scrollPane.setBounds(10, 323, 594, 220);
 		
 		add(scrollPane);
-		
-	}
-	
-	public void SetTextEditable() {
-		txtID.setEditable(false);
-		txtCourse.setEditable(false);
-		txtCus.setEditable(false);
-		txtDate.setEditable(false);
-		txtTotal.setEditable(false);
-		txtUser.setEditable(false);
+		AddListener();
+		SetTextUnEditable();
+		btnCancel.setEnabled(false);
 	}
 	
 	public void SetTextUnEditable() {
-		txtCourse.setEditable(true);
+		txtID.setEditable(false);
+		txtCus.setEditable(false);
+		txtUser.setEditable(false);
+		txtDate.setEditable(false);
+		txtTotal.setEditable(false);
+	}
+	
+	public void SetTextEditable() {
+		cbbCourseInfor.setEnabled(true);
 		txtCus.setEditable(true);
 		txtDate.setEditable(true);
 		txtTotal.setEditable(true);
@@ -234,9 +237,74 @@ public class PanelBill extends JPanel {
 	}
 
 	public void SetTextInfor(int index) {
-		
+		txtID.setText(table.getValueAt(index, 0)+"");
+		txtCus.setText(table.getValueAt(index, 1)+"");
+		txtUser.setText(table.getValueAt(index, 2)+"");
+		cbbCourseInfor.setSelectedItem(table.getValueAt(index, 3)+"");
+		txtDate.setText(table.getValueAt(index, 4)+"");
+		txtTotal.setText(table.getValueAt(index, 5)+"");
 	}
 	
+	public void AddListener() {
+		table.getSelectionModel().addListSelectionListener(new BillListener(this));
+		btnAdd.addActionListener(new BillListener(this));
+		btnCancel.addActionListener(new BillListener(this));
+		btnUpdate.addActionListener(new BillListener(this));
+	}
+	
+	public void PressCancel() {
+		SetTextUnEditable();
+		btnCancel.setEnabled(false);
+		btnAdd.setEnabled(true);
+		btnUpdate.setEnabled(true);
+		btnAdd.setText("Thêm");
+		btnUpdate.setText("Sửa");
+	}
+	
+	public void PressAdd() {
+		SetTextEditable();
+		btnUpdate.setEnabled(false);
+		btnCancel.setEnabled(true);
+		btnAdd.setText("Lưu");
+	}
+	
+	public void PressSaveAdd() {
+//		String cusName = txtCus.getText();
+//		String staffName = txtUser.getText();
+//		String courseName = cbbCourseInfor.getSelectedItem().toString();
+//		String DOB = txtDate.getText();
+//		int total = Integer.parseInt(txtTotal.getText());
+//		
+//		LocalDate date = LocalDate.now();
+		
+		SetTextUnEditable();
+		btnUpdate.setEnabled(true);
+		btnCancel.setEnabled(false);
+		btnAdd.setText("Thêm");
+	}
+	
+	public void PressUpdate() {
+		SetTextEditable();
+		btnAdd.setEnabled(false);
+		btnCancel.setEnabled(true);
+		btnUpdate.setText("Lưu");
+	}
+	
+	public void PressSaveUpdate() {
+		SetTextUnEditable();
+		btnAdd.setEnabled(true);
+		btnCancel.setEnabled(false);
+		btnUpdate.setText("Sửa");
+	}
+	
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
 	public JTextField getTxtID() {
 		return txtID;
 	}
@@ -261,12 +329,21 @@ public class PanelBill extends JPanel {
 		this.txtUser = txtUser;
 	}
 
-	public JTextField getTxtCourse() {
-		return txtCourse;
+
+	public JButton getBtnReset() {
+		return btnReset;
 	}
 
-	public void setTxtCourse(JTextField txtCourse) {
-		this.txtCourse = txtCourse;
+	public void setBtnReset(JButton btnReset) {
+		this.btnReset = btnReset;
+	}
+
+	public JComboBox<String> getCbbCourseInfor() {
+		return cbbCourseInfor;
+	}
+
+	public void setCbbCourseInfor(JComboBox<String> cbbCourseInfor) {
+		this.cbbCourseInfor = cbbCourseInfor;
 	}
 
 	public JTextField getTxtDate() {
@@ -307,14 +384,6 @@ public class PanelBill extends JPanel {
 
 	public void setBtnUpdate(JButton btnUpdate) {
 		this.btnUpdate = btnUpdate;
-	}
-
-	public JButton getBtnDel() {
-		return btnDel;
-	}
-
-	public void setBtnDel(JButton btnDel) {
-		this.btnDel = btnDel;
 	}
 
 	public JLabel getLblSearchCourse() {

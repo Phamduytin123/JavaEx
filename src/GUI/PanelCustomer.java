@@ -4,8 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.SystemColor;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JTextField;
@@ -15,8 +13,8 @@ import java.awt.Font;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import BLL.BLLCustomer;
-import DTO.Customer;
+import GUI.Listener.CustomerListener;
+import GUI.Listener.EquipmentListener;
 
 import javax.swing.JComboBox;
 import java.awt.ScrollPane;
@@ -28,17 +26,21 @@ public class PanelCustomer extends JPanel {
 	private JTextField txtId;
 	private JTextField txtName;
 	private JTextField txtPhonenumber;
-	private JComboBox<String> cbGender;
-	private ArrayList<Customer> data = BLLCustomer.Instance().GetAll();
-	private DefaultTableModel dtm;
-	private JTable table;
+	private JComboBox cbGender;
+	private JTable tableCus;
 	private JScrollPane scrollPane;
 	private JPanel panelDecor_1;
+	private JButton btnAdd;
+	private JButton btnUpdate;
+	private JButton btnDelete;
+	private JButton btnCancel;
+	private JButton btnSave_add;
+	private JButton btnSave_update;
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
 	 */
-	public PanelCustomer() throws SQLException, ClassNotFoundException  {
+	public PanelCustomer() {
 		setBackground(SystemColor.info);
 		setLayout(null);
 		
@@ -48,16 +50,16 @@ public class PanelCustomer extends JPanel {
 		add(txtId);
 		txtId.setColumns(10);
 		
-		JLabel lbCustomer = new JLabel("CUSTOMER");
+		JLabel lbCustomer = new JLabel("Khách Hàng");
 		lbCustomer.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		lbCustomer.setHorizontalAlignment(SwingConstants.CENTER);
-		lbCustomer.setBounds(10, 10, 137, 69);
+		lbCustomer.setBounds(20, 10, 125, 69);
 		add(lbCustomer);
 		
 		JPanel panelDecor = new JPanel();
 		panelDecor.setBackground(SystemColor.desktop);
 		panelDecor.setBorder(new EmptyBorder(0, 0, 0, 0));
-		panelDecor.setBounds(135, 43, 526, 4);
+		panelDecor.setBounds(140, 43, 526, 4);
 		add(panelDecor);
 		panelDecor.setLayout(null);
 		
@@ -67,28 +69,28 @@ public class PanelCustomer extends JPanel {
 		lbId.setBounds(29, 122, 55, 30);
 		add(lbId);
 		
-		JLabel lblGender = new JLabel("Gender: ");
+		JLabel lblGender = new JLabel("Giới tính:");
 		lblGender.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGender.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblGender.setBounds(29, 193, 76, 30);
 		add(lblGender);
 		
-		JLabel lblName = new JLabel("Name:");
+		JLabel lblName = new JLabel("Tên khách hàng:");
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblName.setBounds(306, 122, 76, 30);
+		lblName.setBounds(306, 124, 119, 30);
 		add(lblName);
 		
-		JLabel lblPhonenumber = new JLabel("Phone number:");
+		JLabel lblPhonenumber = new JLabel("Số điện thoại:");
 		lblPhonenumber.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPhonenumber.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblPhonenumber.setBounds(306, 193, 132, 30);
+		lblPhonenumber.setBounds(290, 193, 148, 30);
 		add(lblPhonenumber);
 		
 		txtName = new JTextField();
 		txtName.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtName.setColumns(10);
-		txtName.setBounds(448, 122, 125, 30);
+		txtName.setBounds(448, 125, 125, 30);
 		add(txtName);
 		
 		txtPhonenumber = new JTextField();
@@ -97,39 +99,37 @@ public class PanelCustomer extends JPanel {
 		txtPhonenumber.setBounds(448, 193, 125, 30);
 		add(txtPhonenumber);
 		
-		cbGender = new JComboBox<String>();
-		cbGender.addItem("Nam");
-		cbGender.addItem("Nữ");
+		cbGender = new JComboBox(new Object[] {"Male", "Female"});
 		cbGender.setBackground(SystemColor.textHighlightText);
 		cbGender.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		cbGender.setBounds(115, 193, 125, 30);
 		add(cbGender);
 		
-		table = new JTable();
 		
-		String[] columnNames = { "ID","Tên","SDT","Giới tính" };
-
-		dtm = new DefaultTableModel(columnNames, 0);
 		
-		for (int i = 0; i < 5; i++) {
-//			int ID = data.get(i).getID();
-//			String Name = data.get(i).getName();
-//			String Phone = data.get(i).getPhoneNumber();
-//			String Gender = data.get(i).getGender();
-//			Object[] newRow = {ID,Name,Phone,Gender};
+		tableCus = new JTable();
+		
+		DefaultTableModel model = new DefaultTableModel(new Object[] {"Mã khách hàng", "Tên khách hàng", "Giới tính", "Số điện thoại"}, 0) {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
 			
-			Object [] newRow = {1,1,1,1};
-			
-			dtm.addRow(newRow);
-		}
-		table.setModel(dtm);
+		};
+		model.addRow(new Object[] {"1", "1", "1", "1"});
+		model.addRow(new Object[] {"1", "1", "1", "1"});
 		
+		tableCus.setModel(model);
 		
-		scrollPane = new JScrollPane(table);
+		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
+		tableCus.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tableCus.setBounds(10, 307, 607, 236);
+		
+		scrollPane = new JScrollPane(tableCus);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBackground(SystemColor.info);
-		scrollPane.setBounds(10, 307, 651, 236);
-		
+		scrollPane.setBackground(new Color(240, 248, 255));
+		scrollPane.setBounds(10, 307, 641, 236);
 		add(scrollPane);
 		
 		panelDecor_1 = new JPanel();
@@ -139,7 +139,7 @@ public class PanelCustomer extends JPanel {
 		panelDecor_1.setBounds(10, 43, 10, 4);
 		add(panelDecor_1);
 		
-		JButton btnAdd = new JButton("ADD");
+		btnAdd = new JButton("Thêm");
 		btnAdd.setFocusPainted(false);
 		btnAdd.setBorderPainted(false);
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -148,7 +148,8 @@ public class PanelCustomer extends JPanel {
 		btnAdd.setBorder(null);
 		add(btnAdd);
 		
-		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate = new JButton("Sửa");
+		
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnUpdate.setFocusPainted(false);
 		btnUpdate.setBorderPainted(false);
@@ -157,7 +158,7 @@ public class PanelCustomer extends JPanel {
 		btnUpdate.setBounds(390, 254, 85, 30);
 		add(btnUpdate);
 		
-		JButton btnDelete = new JButton("DELETE");
+		btnDelete = new JButton("Xóa");
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnDelete.setFocusPainted(false);
 		btnDelete.setBorderPainted(false);
@@ -166,8 +167,119 @@ public class PanelCustomer extends JPanel {
 		btnDelete.setBounds(517, 254, 85, 30);
 		add(btnDelete);
 		
+		btnCancel = new JButton("Hủy");
+		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCancel.setFocusPainted(false);
+		btnCancel.setBorderPainted(false);
+		btnCancel.setBorder(null);
+		btnCancel.setBackground(new Color(0, 128, 128));
+		btnCancel.setBounds(390, 254, 85, 30);
+		add(btnCancel);
 		
-		//scrollPane.add(table);
+		btnSave_add = new JButton("Lưu");
+		btnSave_add.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnSave_add.setFocusPainted(false);
+		btnSave_add.setBorderPainted(false);
+		btnSave_add.setBorder(null);
+		btnSave_add.setBackground(new Color(255, 255, 0));
+		btnSave_add.setBounds(517, 254, 85, 30);
+		add(btnSave_add);
+		
+		btnSave_update = new JButton("Lưu");
+		btnSave_update.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnSave_update.setFocusPainted(false);
+		btnSave_update.setBorderPainted(false);
+		btnSave_update.setBorder(null);
+		btnSave_update.setBackground(new Color(255, 255, 0));
+		btnSave_update.setBounds(517, 254, 85, 30);
+		add(btnSave_update);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(102, 205, 170));
+		panel.setBounds(10, 91, 641, 153);
+		add(panel);
+		this.txtId.setEnabled(false);
+		AddListener();
 
+		//scrollPane.add(table);
+		SetTextEnable(false);
+	}
+	public void AddListener() {
+		tableCus.getSelectionModel().addListSelectionListener(new CustomerListener(this));
+		btnAdd.addActionListener(new CustomerListener(this));
+		btnUpdate.addActionListener(new CustomerListener(this));
+		btnDelete.addActionListener(new CustomerListener(this));
+		btnCancel.addActionListener(new CustomerListener(this));
+		btnSave_add.addActionListener(new CustomerListener(this));
+		btnSave_update.addActionListener(new CustomerListener(this));
+	}
+	public JTable getTableCus() {
+		return tableCus;
+	}
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
+	public JButton getBtnUpdate() {
+		return btnUpdate;
+	}
+	public JTextField getTxtId() {
+		return txtId;
+	}
+	public void setTxtId(JTextField txtId) {
+		this.txtId = txtId;
+	}
+	public JTextField getTxtName() {
+		return txtName;
+	}
+	public void setTxtName(JTextField txtName) {
+		this.txtName = txtName;
+	}
+	public JTextField getTxtPhonenumber() {
+		return txtPhonenumber;
+	}
+	public void setTxtPhonenumber(JTextField txtPhonenumber) {
+		this.txtPhonenumber = txtPhonenumber;
+	}
+	public JComboBox getCbGender() {
+		return cbGender;
+	}
+	public void setCbGender(JComboBox cbGender) {
+		this.cbGender = cbGender;
+	}
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+	public JButton getBtnSave_add() {
+		return btnSave_add;
+	}
+	public JButton getBtnSave_update() {
+		return btnSave_update;
+	}
+	public void SetTextFieldNull() {
+		this.txtId.setText(null);
+		this.txtName.setText(null);
+		this.txtPhonenumber.setText(null);
+		
+	}
+	public void SetTextEnable(boolean b) {
+		//this.txtId.setEnabled(b);
+		this.txtName.setEnabled(b);
+		this.txtPhonenumber.setEnabled(b);
+		this.cbGender.setEnabled(b);
+	}
+	public void SetButtonVisibile(boolean b) {
+		this.btnAdd.setVisible(b);
+		this.btnUpdate.setVisible(b);
+		this.btnDelete.setVisible(b);
+	}
+	public void SetDataTextField(int row) {
+		this.txtId.setText(this.tableCus.getValueAt(row, 0).toString());
+		this.txtName.setText(this.tableCus.getValueAt(row, 1).toString());
+		this.cbGender.setSelectedItem(this.tableCus.getValueAt(row, 2).toString());
+		this.txtPhonenumber.setText(this.tableCus.getValueAt(row, 3).toString());
+		
 	}
 }
