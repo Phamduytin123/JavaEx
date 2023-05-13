@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.SystemColor;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JTextField;
@@ -13,6 +15,8 @@ import java.awt.Font;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DTO.Customer;
+import DTO.Equipment;
 import GUI.Listener.EquipmentListener;
 
 import javax.swing.JComboBox;
@@ -36,6 +40,7 @@ public class PanelEquipment extends JPanel {
 	private JButton btnSave_add;
 	private JButton btnSave_update;
 	private JPanel panel;
+	private ArrayList<Equipment> rows;
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
@@ -93,6 +98,31 @@ public class PanelEquipment extends JPanel {
 		txtPrice.setBounds(115, 194, 125, 30);
 		add(txtPrice);
 		
+		tableCus = new JTable();
+		
+		DefaultTableModel model = new DefaultTableModel(new Object[] {"Mã khách hàng", "Tên khách hàng", "Giới tính", "Số điện thoại"}, 0) {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+			
+		};
+		
+		try {
+			rows = BLL.BLLEquipment.Instance().GetAll();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		for (int i = 0; i < rows.size(); i ++) {
+			int id = rows.get(i).getID();
+			String name = rows.get(i).getName();
+			int price = rows.get(i).getPrice();
+			int quantity = rows.get(i).getQuantity();
+			model.addRow(new Object[] {id, name, price,quantity});
+		}
+		
 		txtQuantity = new JTextField();
 		txtQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtQuantity.setColumns(10);
@@ -106,19 +136,18 @@ public class PanelEquipment extends JPanel {
 		add(cbName);
 		
 		
-		
-		tableCus = new JTable();
-		
-		DefaultTableModel model = new DefaultTableModel(new Object[] {"ID", "Name", "Price", "Quantiy"}, 0) {
-			@Override
-		    public boolean isCellEditable(int row, int column) {
-		       //all cells false
-		       return false;
-		    }
-			
-		};
-		model.addRow(new Object[] {"1", "1", "1", "1"});
-		model.addRow(new Object[] {"1", "1", "1", "1"});
+//		tableCus = new JTable();
+//		
+//		DefaultTableModel model = new DefaultTableModel(new Object[] {"ID", "Name", "Price", "Quantiy"}, 0) {
+//			@Override
+//		    public boolean isCellEditable(int row, int column) {
+//		       //all cells false
+//		       return false;
+//		    }
+//			
+//		};
+//		model.addRow(new Object[] {"1", "1", "1", "1"});
+//		model.addRow(new Object[] {"1", "1", "1", "1"});
 		
 		tableCus.setModel(model);
 		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -234,6 +263,9 @@ public class PanelEquipment extends JPanel {
 		this.txtQuantity.setText(this.tableCus.getValueAt(row, 3).toString());
 		
 	}
+	public ArrayList<Equipment> getRows(){
+		return rows;
+	}
 	public JTextField getTxtId() {
 		return txtId;
 	}
@@ -266,5 +298,8 @@ public class PanelEquipment extends JPanel {
 	}
 	public JButton getBtnSave_update() {
 		return btnSave_update;
+	}
+	public void setRows(ArrayList<Equipment> rows) {
+		this.rows = rows;
 	}
 }

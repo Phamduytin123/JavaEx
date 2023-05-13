@@ -6,7 +6,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import DTO.Equipment;
 import GUI.PanelBill;
+import GUI.PanelCourse;
+import GUI.PanelEquipment;
 
 public class FormTest extends JFrame {
 
@@ -19,7 +22,7 @@ public class FormTest extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormTest frame = new FormTest();
+					PanelEquipment frame = new PanelEquipment();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

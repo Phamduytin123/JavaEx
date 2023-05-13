@@ -2,11 +2,14 @@ package GUI.Listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import BLL.BLLEquipment;
 import GUI.PanelEquipment;
 
 public class EquipmentListener implements ActionListener, ListSelectionListener{
@@ -40,6 +43,20 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 		else if (e.getSource().equals(panelEquipment.getBtnDelete())) {
 			DefaultTableModel model = (DefaultTableModel) panelEquipment.getTableCus().getModel();
 			model.removeRow(panelEquipment.getTableCus().getSelectedRow());
+			int indexRow = panelEquipment.getTableCus().getSelectedRow();
+			int choice = JOptionPane.showConfirmDialog(null, "Bạn có thật sự muốn xóa thiết bị tập này",null,JOptionPane.YES_NO_OPTION);
+			int size = panelEquipment.getRows().size();
+			if(choice == JOptionPane.YES_OPTION) {
+				if (BLL.BLLEquipment.Instance().delete(Integer.parseInt(panelEquipment.getTableCus().getValueAt(panelEquipment.getTableCus().getSelectedRow(),0).toString()))) {
+					try {
+						model.removeRow(panelEquipment.getTableCus().getSelectedRow());
+						panelEquipment.setRows(BLL.BLLEquipment.Instance().GetAll());
+					} catch (ClassNotFoundException  | SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnSave_add())){
 			DefaultTableModel model = (DefaultTableModel) panelEquipment.getTableCus().getModel();
@@ -53,6 +70,10 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 			panelEquipment.SetButtonVisibile(true);
 			panelEquipment.SetTextFieldNull();
 			panelEquipment.SetTextEnable(false);
+			int choice = JOptionPane.showConfirmDialog(null, "Bạn có thật sự muốn thêm dụng cụ này?",null,JOptionPane.YES_NO_OPTION);
+			if(choice == JOptionPane.YES_OPTION) {
+				//if(BLLEquipment.Instance().insert(panelEquipment.get, choice, choice))
+			}
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnSave_update())) {
 			if (panelEquipment.getTableCus().getSelectedRow() != -1) {

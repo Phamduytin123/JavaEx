@@ -120,7 +120,7 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 		Connection con = JDBCUtils.getConnection();
 		ArrayList<Course> courses  = new ArrayList<Course>();
 		
-		String sql = "Select * from Course Where Kind = "+kind;
+		String sql =String.format("Select * from Course Where Kind = N'%s'",kind);
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
