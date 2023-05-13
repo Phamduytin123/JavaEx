@@ -11,18 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
-<<<<<<< Updated upstream
 import javax.swing.table.DefaultTableModel;
 
 import GUI.Listener.CustomerListener;
 import GUI.Listener.EquipmentListener;
-=======
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-
-import GUI.Listener.CustomerListener;
->>>>>>> Stashed changes
 
 import javax.swing.JComboBox;
 import java.awt.ScrollPane;
@@ -37,7 +29,6 @@ public class PanelCustomer extends JPanel {
 	private JComboBox cbGender;
 	private JTable tableCus;
 	private JScrollPane scrollPane;
-<<<<<<< Updated upstream
 	private JPanel panelDecor_1;
 	private JButton btnAdd;
 	private JButton btnUpdate;
@@ -45,15 +36,6 @@ public class PanelCustomer extends JPanel {
 	private JButton btnCancel;
 	private JButton btnSave_add;
 	private JButton btnSave_update;
-=======
-	private JButton btnAdd;
-	private JButton btnUpdate;
-	private JButton btnDelete;
-	private JButton btnSave_Update;
-	private JButton btnSave_Add;
-	private JButton btnCancel;
-	
->>>>>>> Stashed changes
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
@@ -123,7 +105,6 @@ public class PanelCustomer extends JPanel {
 		cbGender.setBounds(115, 193, 125, 30);
 		add(cbGender);
 		
-<<<<<<< Updated upstream
 		
 		
 		tableCus = new JTable();
@@ -143,51 +124,7 @@ public class PanelCustomer extends JPanel {
 		
 		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tableCus.setFont(new Font("Tahoma", Font.PLAIN, 13));
-=======
-//		Vector<Vector> dataTable = new Vector<>();
-//		Vector rows = new Vector();
-//		rows.add("1");
-//		rows.add("1");
-//		rows.add("1");
-//		rows.add("Male");
-//		
-//		
-//		dataTable.add(rows);
-//		dataTable.add(rows);
-//		dataTable.add(rows);
-//		dataTable.add(rows);
-		
-		
-//		Vector columns = new Vector();
-//		columns.add("ID");
-//		columns.add("Name");
-//		columns.add("Phonenumber");
-//		columns.add("Gender");
-		DefaultTableModel model = new DefaultTableModel() {
-			@Override
-				public boolean isCellEditable(int row, int column) {
-		       //all cells false
-					return false;
-				}
-			};
-		model.addColumn("ID");
-		model.addColumn("Name");
-		model.addColumn("Phonenumber");
-		model.addColumn("Gender");
-		
-		
-		tableCus = new JTable();
-		tableCus.setModel(model);
-		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
-		tableCus.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		tableCus.setRowHeight(25);
->>>>>>> Stashed changes
 		tableCus.setBounds(10, 307, 607, 236);
-		
-		tableCus.getSelectionModel().addListSelectionListener(new CustomerListener(this));
-		
-
-		
 		
 		scrollPane = new JScrollPane(tableCus);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -195,19 +132,14 @@ public class PanelCustomer extends JPanel {
 		scrollPane.setBounds(10, 307, 641, 236);
 		add(scrollPane);
 		
-		JPanel panelDecor_1 = new JPanel();
+		panelDecor_1 = new JPanel();
 		panelDecor_1.setLayout(null);
 		panelDecor_1.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panelDecor_1.setBackground(SystemColor.desktop);
 		panelDecor_1.setBounds(10, 43, 10, 4);
 		add(panelDecor_1);
 		
-<<<<<<< Updated upstream
 		btnAdd = new JButton("Thêm");
-=======
-		btnAdd = new JButton("ADD");
-		btnAdd.addActionListener(new CustomerListener(this));
->>>>>>> Stashed changes
 		btnAdd.setFocusPainted(false);
 		btnAdd.setBorderPainted(false);
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -216,13 +148,8 @@ public class PanelCustomer extends JPanel {
 		btnAdd.setBorder(null);
 		add(btnAdd);
 		
-<<<<<<< Updated upstream
 		btnUpdate = new JButton("Sửa");
 		
-=======
-		btnUpdate = new JButton("UPDATE");
-		btnUpdate.addActionListener(new CustomerListener(this));
->>>>>>> Stashed changes
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnUpdate.setFocusPainted(false);
 		btnUpdate.setBorderPainted(false);
@@ -231,12 +158,7 @@ public class PanelCustomer extends JPanel {
 		btnUpdate.setBounds(390, 254, 85, 30);
 		add(btnUpdate);
 		
-<<<<<<< Updated upstream
 		btnDelete = new JButton("Xóa");
-=======
-		btnDelete = new JButton("DELETE");
-		btnDelete.addActionListener(new CustomerListener(this));
->>>>>>> Stashed changes
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnDelete.setFocusPainted(false);
 		btnDelete.setBorderPainted(false);
@@ -245,7 +167,6 @@ public class PanelCustomer extends JPanel {
 		btnDelete.setBounds(517, 254, 85, 30);
 		add(btnDelete);
 		
-<<<<<<< Updated upstream
 		btnCancel = new JButton("Hủy");
 		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnCancel.setFocusPainted(false);
@@ -279,43 +200,6 @@ public class PanelCustomer extends JPanel {
 		add(panel);
 		this.txtId.setEnabled(false);
 		AddListener();
-=======
-		btnSave_Add = new JButton("SAVE");
-		btnSave_Add.addActionListener(new CustomerListener(this));
-		btnSave_Add.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnSave_Add.setFocusPainted(false);
-		btnSave_Add.setBorderPainted(false);
-		btnSave_Add.setBorder(null);
-		btnSave_Add.setBackground(Color.YELLOW);
-		btnSave_Add.setBounds(517, 254, 85, 30);
-		add(btnSave_Add);
-		
-		btnSave_Update = new JButton("SAVE");
-		btnSave_Update.addActionListener(new CustomerListener(this));
-		btnSave_Update.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnSave_Update.setFocusPainted(false);
-		btnSave_Update.setBorderPainted(false);
-		btnSave_Update.setBorder(null);
-		btnSave_Update.setBackground(Color.YELLOW);
-		btnSave_Update.setBounds(517, 254, 85, 30);
-		add(btnSave_Update);
-		
-		btnCancel = new JButton("CANCEL");
-		btnCancel.addActionListener(new CustomerListener(this));
-		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCancel.setFocusPainted(false);
-		btnCancel.setBorderPainted(false);
-		btnCancel.setBorder(null);
-		btnCancel.setBackground(new Color(0, 128, 128));
-		btnCancel.setBounds(390, 254, 85, 30);
-		add(btnCancel);
-		
-		//btnUpdate.setVisible(false);
-		btnCancel.setVisible(false);
-		this.SetTextFieldEnable(false);
-		//this.addMouseListener(new CustomerListener(this));
-		//scrollPane.add(table);
->>>>>>> Stashed changes
 
 		//scrollPane.add(table);
 		SetTextEnable(false);
@@ -397,107 +281,5 @@ public class PanelCustomer extends JPanel {
 		this.cbGender.setSelectedItem(this.tableCus.getValueAt(row, 2).toString());
 		this.txtPhonenumber.setText(this.tableCus.getValueAt(row, 3).toString());
 		
-	}
-	public JButton getBtnAdd() {
-		return btnAdd;
-	}
-	public void setBtnAdd(JButton btnAdd) {
-		this.btnAdd = btnAdd;
-	}
-	public JButton getBtnUpdate() {
-		return btnUpdate;
-	}
-	public void setBtnUpdate(JButton btnUpdate) {
-		this.btnUpdate = btnUpdate;
-	}
-	public JButton getBtnDelete() {
-		return btnDelete;
-	}
-	public void setBtnDelete(JButton btnDelete) {
-		this.btnDelete = btnDelete;
-	}
-	public JTextField getTxtId() {
-		return txtId;
-	}
-	public void setTxtId(JTextField txtId) {
-		this.txtId = txtId;
-	}
-	public JTextField getTxtName() {
-		return txtName;
-	}
-	public void setTxtName(JTextField txtName) {
-		this.txtName = txtName;
-	}
-	public JTextField getTxtPhonenumber() {
-		return txtPhonenumber;
-	}
-	public void setTxtPhonenumber(JTextField txtPhonenumber) {
-		this.txtPhonenumber = txtPhonenumber;
-	}
-	public JComboBox getCbGender() {
-		return cbGender;
-	}
-	public void setCbGender(JComboBox cbGender) {
-		this.cbGender = cbGender;
-	}
-	public JTable getTableCus() {
-		return tableCus;
-	}
-	public void setTableCus(JTable tableCus) {
-		this.tableCus = tableCus;
-	}
-	public JScrollPane getScrollPane() {
-		return scrollPane;
-	}
-	public void setScrollPane(JScrollPane scrollPane) {
-		this.scrollPane = scrollPane;
-	}
-	public void SetTextFieldEnable(boolean b) {
-		this.txtId.setEnabled(b);
-		this.txtName.setEnabled(b);
-		this.txtPhonenumber.setEnabled(b);
-		this.cbGender.setEnabled(b);
-	}
-	public void SetTextFieldData(int row) {
-		this.txtId.setText(this.tableCus.getValueAt(row, 0).toString());
-		this.txtName.setText(this.tableCus.getValueAt(row, 1).toString());
-		this.txtPhonenumber.setText(this.tableCus.getValueAt(row, 2).toString());
-		this.cbGender.setSelectedItem(this.tableCus.getValueAt(row, 3).toString());
-	}
-	
-	public void SetButtonVisible(boolean b) {
-		this.btnAdd.setEnabled(b);
-		this.btnUpdate.setEnabled(b);
-		this.btnDelete.setEnabled(b);
-		this.btnCancel.setEnabled(!b);
-		this.btnAdd.setVisible(b);
-		this.btnUpdate.setVisible(b);
-		this.btnDelete.setVisible(b);
-		this.btnCancel.setVisible(!b);
-		
-	}
-	public void SetTextFieldNull() {
-		this.txtId.setText("");
-		this.txtName.setText("");
-		this.txtPhonenumber.setText("");
-		
-	}
-	public JButton getBtnSave_Update() {
-		return btnSave_Update;
-	}
-	public void setBtnSave_Update(JButton btnSave_Update) {
-		this.btnSave_Update = btnSave_Update;
-	}
-	public JButton getBtnSave_Add() {
-		return btnSave_Add;
-	}
-	public void setBtnSave_Add(JButton btnSave_Add) {
-		this.btnSave_Add = btnSave_Add;
-	}
-	public JButton getBtnCancel() {
-		return btnCancel;
-	}
-	public void setBtnCancel(JButton btnCancel) {
-		this.btnCancel = btnCancel;
 	}
 }

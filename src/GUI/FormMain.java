@@ -16,30 +16,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.SwingConstants;
-import javax.swing.*;
 
-<<<<<<< Updated upstream
 
 public class FormMain extends JFrame implements ActionListener{
-=======
-public class FormMain extends JFrame implements ActionListener {
->>>>>>> Stashed changes
 	private JPanel contentPane;
-	private PanelCustomer panelCustomer= new PanelCustomer();;
-	private PanelEquipment panelEquipment =  new PanelEquipment();
+	private PanelCustomer panelCustomer;
 	private JPanel pnMenu;
-<<<<<<< Updated upstream
 	private PanelEquipment panelEquipment;
 	private PanelCourse panelCourse;
 	private PanelUser panelUser;
-=======
->>>>>>> Stashed changes
 	private JButton btnEquipment;
 	private JButton btnCourse;
 	private JButton btnBill;
 	private JButton btnUser;
 	private JButton btnSignOut;
 	private JButton btnCustomer;
+	private PanelBill panelBill;
 	/**
 	 * Launch the application.
 	 */
@@ -78,14 +70,12 @@ public class FormMain extends JFrame implements ActionListener {
 		
 		
 		
-		
+		panelCustomer = new PanelCustomer();
 		panelCustomer.setLayout(null);
 		panelCustomer.setBounds(189, 0, 671, 553);
-		panelCustomer.setVisible(false);
 		contentPane.add(panelCustomer);
 		
 		
-<<<<<<< Updated upstream
 		panelEquipment = new PanelEquipment();
 		panelEquipment.setLayout(null);
 		panelEquipment.setBounds(189, 0, 671, 553);
@@ -101,21 +91,14 @@ public class FormMain extends JFrame implements ActionListener {
 		panelUser.setBounds(189, 0, 671, 553);
 		contentPane.add(panelUser);
 		
-		
-		
-		btnEquipment = new JButton("EQUIPMENT");
-=======
-		panelEquipment.setLayout(null);
-		panelEquipment.setBounds(189, 0, 671, 553);
-		panelEquipment.setVisible(false);
-		contentPane.add(panelEquipment);
+//		panelBill = new PanelBill();
+//		panel.setLayout(null);
+//		panelUser.setBounds(189, 0, 671, 553);
+//		contentPane.add(panelUser);
 		
 		
 		
 		btnEquipment = new JButton("EQUIPMENT");
-		btnEquipment.setFocusPainted(false);
-		btnEquipment.setBorderPainted(false);
->>>>>>> Stashed changes
 		btnEquipment.addActionListener(this);
 		btnEquipment.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnEquipment.setBackground(SystemColor.activeCaption);
@@ -124,11 +107,6 @@ public class FormMain extends JFrame implements ActionListener {
 		
 		btnCourse = new JButton("COURSE");
 		btnCourse.addActionListener(this);
-<<<<<<< Updated upstream
-=======
-		btnCourse.setFocusPainted(false);
-		btnCourse.setBorderPainted(false);
->>>>>>> Stashed changes
 		btnCourse.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnCourse.setBackground(SystemColor.activeCaption);
 		btnCourse.setBounds(0, 327, 190, 57);
@@ -136,11 +114,6 @@ public class FormMain extends JFrame implements ActionListener {
 		
 		btnBill = new JButton("BILL");
 		btnBill.addActionListener(this);
-<<<<<<< Updated upstream
-=======
-		btnBill.setFocusPainted(false);
-		btnBill.setBorderPainted(false);
->>>>>>> Stashed changes
 		btnBill.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnBill.setBackground(SystemColor.activeCaption);
 		btnBill.setBounds(0, 382, 190, 57);
@@ -148,11 +121,6 @@ public class FormMain extends JFrame implements ActionListener {
 		
 		btnUser = new JButton("USER");
 		btnUser.addActionListener(this);
-<<<<<<< Updated upstream
-=======
-		btnUser.setFocusPainted(false);
-		btnUser.setBorderPainted(false);
->>>>>>> Stashed changes
 		btnUser.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnUser.setBackground(SystemColor.activeCaption);
 		btnUser.setBounds(0, 439, 190, 57);
@@ -160,11 +128,6 @@ public class FormMain extends JFrame implements ActionListener {
 		
 		btnSignOut = new JButton("SIGN OUT");
 		btnSignOut.addActionListener(this);
-<<<<<<< Updated upstream
-=======
-		btnSignOut.setFocusPainted(false);
-		btnSignOut.setBorderPainted(false);
->>>>>>> Stashed changes
 		btnSignOut.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnSignOut.setBackground(SystemColor.activeCaption);
 		btnSignOut.setBounds(0, 496, 190, 57);
@@ -172,11 +135,6 @@ public class FormMain extends JFrame implements ActionListener {
 		
 		btnCustomer = new JButton("CUSTOMER");
 		btnCustomer.addActionListener(this);
-<<<<<<< Updated upstream
-=======
-		btnCustomer.setFocusPainted(false);
-		btnCustomer.setBorderPainted(false);
->>>>>>> Stashed changes
 		btnCustomer.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnCustomer.setBackground(SystemColor.activeCaption);
 		btnCustomer.setBounds(0, 219, 190, 57);
@@ -195,7 +153,6 @@ public class FormMain extends JFrame implements ActionListener {
 		if (e.getSource() == btnCustomer) {
 			panelCustomer.setVisible(true);
 			panelEquipment.setVisible(false);
-<<<<<<< Updated upstream
 			panelCourse.setVisible(false);
 			panelUser.setVisible(false);
 		}
@@ -216,22 +173,6 @@ public class FormMain extends JFrame implements ActionListener {
 			panelEquipment.setVisible(false);
 			panelCourse.setVisible(false);
 			panelUser.setVisible(true);
-=======
-			
-		}
-		else if (e.getSource() == btnEquipment){
-			panelCustomer.setVisible(false);
-			panelEquipment.setVisible(true);
-		}
-		else if (e.getSource() == btnCourse){
-			
-		}
-		else if (e.getSource() == btnUser){
-			
-		}
-		else if (e.getSource() == btnSignOut){
-			
->>>>>>> Stashed changes
 		}
 	}
 }
