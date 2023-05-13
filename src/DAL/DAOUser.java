@@ -10,14 +10,33 @@ public class DAOUser implements DAOUtils<User, Integer> {
 
 	@Override
 	public int insert(User t) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return 0;
+		int data = 0;
+		String username = t.getUserName();
+		String password = t.getPassword();
+		String role = t.getRole();
+		String fullname = t.getFullName();
+		String address = t.getAddress();
+		Connector.getInstance().ConnectToDatabase();
+		String query = String.format("Insert into User( UserName, UserPassword, UserRole, FullName, Address) Values( %s, %s, %s, %s, %s)", username,password,role,fullname,address);
+		try {
+			data = Connector.getInstance().ExcecuteNonQuery(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
 	}
 
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return 0;
+		int data = 0;
+		Connector.getInstance().ConnectToDatabase();
+		String query = "Delete User Where Id = "+t;
+		try {
+			data = Connector.getInstance().ExcecuteNonQuery(query);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
 	}
 
 	@Override
@@ -30,7 +49,13 @@ public class DAOUser implements DAOUtils<User, Integer> {
 		String fullname = t.getFullName();
 		String address = t.getAddress();
 		Connector.getInstance().ConnectToDatabase();
-		String query = String.format("Update UserAccount Set UserName = %s, UserPassword = %s, ", null);
+		String query = String.format("Update UserAccount Set UserName = %s, UserPassword = %s, UserRole = %s, FullName = %s, Address = %s Where Id = %d", username, password,role,fullname,address,id);
+		try {
+			data = Connector.getInstance().ExcecuteNonQuery(query);
+			Connector.getInstance().conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return data;
 	}
 
