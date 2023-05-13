@@ -9,6 +9,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import DTO.Bill;
+import DTO.BillInfor;
 import GUI.Listener.BillListener;
 
 import javax.swing.JLabel;
@@ -20,12 +21,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
+import javax.swing.JRadioButton;
 
 public class PanelBill extends JPanel {
 	private JTextField txtID;
@@ -38,9 +41,9 @@ public class PanelBill extends JPanel {
 	private JTable table;
 	private JButton btnAdd, btnCancel, btnUpdate, btnReset;
 	private JLabel lblSearchCourse, lblScPhone,lblScHan;
-	private JComboBox<String> cbbCourse,cbbDay,cbbCourseInfor;
+	private JComboBox<String> cbbCourse,cbbCourseInfor;
 	private JTextField textField;
-	private JLabel lblNewLabel_3;
+	private JRadioButton rdoHetHan;
 
 	/**
 	 * Create the panel.
@@ -72,7 +75,7 @@ public class PanelBill extends JPanel {
 		lblNewLabel_1.setBounds(10, 21, 83, 26);
 		panel.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Khách hàng");
+		JLabel lblNewLabel_1_1 = new JLabel("SDTKhách hàng");
 		lblNewLabel_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		lblNewLabel_1_1.setBounds(10, 68, 83, 26);
 		panel.add(lblNewLabel_1_1);
@@ -180,19 +183,16 @@ public class PanelBill extends JPanel {
 		btnReset.setBounds(512, 9, 72, 29);
 		panel_1.add(btnReset);
 		
-		lblNewLabel_3 = new JLabel("Hết hạn");
-		lblNewLabel_3.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		lblNewLabel_3.setBounds(337, 11, 54, 24);
-		panel_1.add(lblNewLabel_3);
-		
-		cbbDay = new JComboBox<String>();
-		cbbDay.setBounds(387, 11, 77, 24);
-		panel_1.add(cbbDay);
-		
 		 lblScHan = new JLabel("");
-		lblScHan.setBounds(474, 11, 25, 25);
+		lblScHan.setBounds(443, 11, 25, 25);
 		lblScHan.setIcon(new ImageIcon(PanelBill.class.getResource("/photo/SearchImage1.png")));
 		panel_1.add(lblScHan);
+		
+		rdoHetHan = new JRadioButton("Hết hạn");
+		rdoHetHan.setBackground(new Color(255, 128, 128));
+		rdoHetHan.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		rdoHetHan.setBounds(351, 12, 77, 23);
+		panel_1.add(rdoHetHan);
 		
 		table = new JTable();
 		
@@ -268,6 +268,10 @@ public class PanelBill extends JPanel {
 		btnAdd.setText("Lưu");
 	}
 	
+	public void PressSearch() {
+		
+	}
+	
 	public void PressSaveAdd() {
 //		String cusName = txtCus.getText();
 //		String staffName = txtUser.getText();
@@ -295,6 +299,18 @@ public class PanelBill extends JPanel {
 		btnAdd.setEnabled(true);
 		btnCancel.setEnabled(false);
 		btnUpdate.setText("Sửa");
+	}
+	
+	public void PressSearchCourse() {
+		
+	}
+	
+	public void PressSearchPhone() {
+		
+	}
+	
+	public void PressSearchHetHan() {
+		
 	}
 	
 	public JTable getTable() {
@@ -418,14 +434,6 @@ public class PanelBill extends JPanel {
 		this.cbbCourse = cbbCourse;
 	}
 
-	public JComboBox<String> getCbbDay() {
-		return cbbDay;
-	}
-
-	public void setCbbDay(JComboBox<String> cbbDay) {
-		this.cbbDay = cbbDay;
-	}
-
 	public JTextField getTextField() {
 		return textField;
 	}
@@ -434,11 +442,4 @@ public class PanelBill extends JPanel {
 		this.textField = textField;
 	}
 
-	public JLabel getLblNewLabel_3() {
-		return lblNewLabel_3;
-	}
-
-	public void setLblNewLabel_3(JLabel lblNewLabel_3) {
-		this.lblNewLabel_3 = lblNewLabel_3;
-	}
 }
