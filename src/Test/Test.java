@@ -1,34 +1,23 @@
-package GUI;
-
+package Test;
+import GUI.*;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.SystemColor;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import GUI.PanelCustomer;
 
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+public class Test extends JFrame {
 
-import javax.swing.SwingConstants;
-
-
-public class FormMain extends JFrame implements ActionListener{
 	private JPanel contentPane;
-	private PanelCustomer panelCustomer;
-	private JPanel pnMenu;
+	
 	private PanelEquipment panelEquipment;
-	private JButton btnEquipment;
-	private JButton btnCourse;
-	private JButton btnBill;
-	private JButton btnUser;
-	private JButton btnSignOut;
-	private JButton btnCustomer;
+	private JPanel pnMenu;
 	/**
 	 * Launch the application.
 	 */
@@ -36,7 +25,7 @@ public class FormMain extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FormMain frame = new FormMain();
+					Test frame = new Test();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +37,14 @@ public class FormMain extends JFrame implements ActionListener{
 	/**
 	 * Create the frame.
 	 */
-	public FormMain() {
+	public Test() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		
+		setContentPane(contentPane);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 861, 585);
 		contentPane = new JPanel();
@@ -56,8 +52,6 @@ public class FormMain extends JFrame implements ActionListener{
 		
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
-		
-		
 		
 		pnMenu = new JPanel();
 		pnMenu.setLayout(null);
@@ -67,55 +61,43 @@ public class FormMain extends JFrame implements ActionListener{
 		
 		
 		
-		panelCustomer = new PanelCustomer();
-		panelCustomer.setLayout(null);
-		panelCustomer.setBounds(189, 0, 671, 553);
-		contentPane.add(panelCustomer);
-		
 		panelEquipment = new PanelEquipment();
 		panelEquipment.setLayout(null);
 		panelEquipment.setBounds(189, 0, 671, 553);
 		contentPane.add(panelEquipment);
 		
 		
-		
-		btnEquipment = new JButton("EQUIPMENT");
-		btnEquipment.addActionListener(this);
+		JButton btnEquipment = new JButton("EQUIPMENT");
 		btnEquipment.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnEquipment.setBackground(SystemColor.activeCaption);
 		btnEquipment.setBounds(0, 274, 190, 57);
 		pnMenu.add(btnEquipment);
 		
-		btnCourse = new JButton("COURSE");
-		btnCourse.addActionListener(this);
+		JButton btnCourse = new JButton("COURSE");
 		btnCourse.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnCourse.setBackground(SystemColor.activeCaption);
 		btnCourse.setBounds(0, 327, 190, 57);
 		pnMenu.add(btnCourse);
 		
-		btnBill = new JButton("BILL");
-		btnBill.addActionListener(this);
+		JButton btnBill = new JButton("BILL");
 		btnBill.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnBill.setBackground(SystemColor.activeCaption);
 		btnBill.setBounds(0, 382, 190, 57);
 		pnMenu.add(btnBill);
 		
-		btnUser = new JButton("USER");
-		btnUser.addActionListener(this);
+		JButton btnUser = new JButton("USER");
 		btnUser.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnUser.setBackground(SystemColor.activeCaption);
 		btnUser.setBounds(0, 439, 190, 57);
 		pnMenu.add(btnUser);
 		
-		btnSignOut = new JButton("SIGN OUT");
-		btnSignOut.addActionListener(this);
+		JButton btnSignOut = new JButton("SIGN OUT");
 		btnSignOut.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnSignOut.setBackground(SystemColor.activeCaption);
 		btnSignOut.setBounds(0, 496, 190, 57);
 		pnMenu.add(btnSignOut);
 		
-		btnCustomer = new JButton("CUSTOMER");
-		btnCustomer.addActionListener(this);
+		JButton btnCustomer = new JButton("CUSTOMER");
 		btnCustomer.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnCustomer.setBackground(SystemColor.activeCaption);
 		btnCustomer.setBounds(0, 219, 190, 57);
@@ -126,18 +108,9 @@ public class FormMain extends JFrame implements ActionListener{
 		panelAvatar.setBounds(0, 0, 190, 190);
 		pnMenu.add(panelAvatar);
 		
+		panelEquipment.SetTextEnable(false);
+		
 	}
+	
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if (e.getSource() == btnCustomer) {
-			panelCustomer.setVisible(true);
-			panelEquipment.setVisible(false);
-		}
-		else if (e.getSource() == btnEquipment) {
-			panelCustomer.setVisible(false);
-			panelEquipment.setVisible(true);
-		}
-	}
 }

@@ -104,18 +104,7 @@ public class PanelCustomer extends JPanel {
 		dataTable.add(rows);
 		dataTable.add(rows);
 		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
+		
 		
 		Vector columns = new Vector();
 		columns.add("ID");
@@ -157,7 +146,7 @@ public class PanelCustomer extends JPanel {
 		btnUpdate.setBorderPainted(false);
 		btnUpdate.setBackground(Color.PINK);
 		btnUpdate.setBorder(null);
-		btnUpdate.setBounds(390, 254, 85, 30);
+		btnUpdate.setBounds(388, 254, 85, 30);
 		add(btnUpdate);
 		
 		JButton btnDelete = new JButton("DELETE");

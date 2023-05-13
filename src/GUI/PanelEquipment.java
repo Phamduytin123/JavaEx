@@ -11,6 +11,10 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import GUI.Listener.EquipmentListener;
+
 import javax.swing.JComboBox;
 import java.awt.ScrollPane;
 import javax.swing.JTable;
@@ -19,12 +23,18 @@ import java.awt.Color;
 
 public class PanelEquipment extends JPanel {
 	private JTextField txtId;
-	private JTextField txtName;
-	private JTextField txtPhonenumber;
-	private JComboBox cbGender;
+	private JTextField txtPrice;
+	private JTextField txtQuantity;
+	private JComboBox cbName;
 	private JTable tableCus;
 	private JScrollPane scrollPane;
 	private JPanel panelDecor_1;
+	private JButton btnAdd;
+	private JButton btnUpdate;
+	private JButton btnDelete;
+	private JButton btnCancel;
+	private JButton btnSave_add;
+	private JButton btnSave_update;
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
@@ -39,11 +49,11 @@ public class PanelEquipment extends JPanel {
 		add(txtId);
 		txtId.setColumns(10);
 		
-		JLabel lbCustomer = new JLabel("CUSTOMER");
-		lbCustomer.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		lbCustomer.setHorizontalAlignment(SwingConstants.CENTER);
-		lbCustomer.setBounds(10, 10, 137, 69);
-		add(lbCustomer);
+		JLabel lbEquipment = new JLabel("EQUIPMENT");
+		lbEquipment.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		lbEquipment.setHorizontalAlignment(SwingConstants.CENTER);
+		lbEquipment.setBounds(10, 10, 137, 69);
+		add(lbEquipment);
 		
 		JPanel panelDecor = new JPanel();
 		panelDecor.setBackground(SystemColor.desktop);
@@ -58,7 +68,7 @@ public class PanelEquipment extends JPanel {
 		lbId.setBounds(29, 122, 55, 30);
 		add(lbId);
 		
-		JLabel lblGender = new JLabel("Gender: ");
+		JLabel lblGender = new JLabel("Price: ");
 		lblGender.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGender.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblGender.setBounds(29, 193, 76, 30);
@@ -67,62 +77,51 @@ public class PanelEquipment extends JPanel {
 		JLabel lblName = new JLabel("Name:");
 		lblName.setHorizontalAlignment(SwingConstants.CENTER);
 		lblName.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblName.setBounds(306, 122, 76, 30);
+		lblName.setBounds(326, 124, 76, 30);
 		add(lblName);
 		
-		JLabel lblPhonenumber = new JLabel("Phone number:");
+		JLabel lblPhonenumber = new JLabel("Quantity:");
 		lblPhonenumber.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPhonenumber.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblPhonenumber.setBounds(306, 193, 132, 30);
 		add(lblPhonenumber);
 		
-		txtName = new JTextField();
-		txtName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtName.setColumns(10);
-		txtName.setBounds(448, 122, 125, 30);
-		add(txtName);
+		txtPrice = new JTextField();
+		txtPrice.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtPrice.setColumns(10);
+		txtPrice.setBounds(115, 194, 125, 30);
+		add(txtPrice);
 		
-		txtPhonenumber = new JTextField();
-		txtPhonenumber.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtPhonenumber.setColumns(10);
-		txtPhonenumber.setBounds(448, 193, 125, 30);
-		add(txtPhonenumber);
+		txtQuantity = new JTextField();
+		txtQuantity.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtQuantity.setColumns(10);
+		txtQuantity.setBounds(448, 193, 125, 30);
+		add(txtQuantity);
 		
-		cbGender = new JComboBox(new Object[] {"Male", "Female"});
-		cbGender.setBackground(SystemColor.textHighlightText);
-		cbGender.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbGender.setBounds(115, 193, 125, 30);
-		add(cbGender);
+		cbName = new JComboBox(new Object[] {"Sản phẩm 1", "Sản phầm 2"});
+		cbName.setBackground(SystemColor.textHighlightText);
+		cbName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbName.setBounds(448, 124, 125, 30);
+		add(cbName);
 		
-		Vector<Vector> dataTable = new Vector<>();
-		Vector rows = new Vector();
-		rows.add("1");
-		rows.add("1");
-		rows.add("1");
-		rows.add("1");
 		
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
-		dataTable.add(rows);
 		
-		Vector columns = new Vector();
-		columns.add("ID");
-		columns.add("Gender");
-		columns.add("Name");
-		columns.add("Phonenumber");
-		tableCus = new JTable(dataTable, columns);
+		tableCus = new JTable();
+		
+		DefaultTableModel model = new DefaultTableModel(new Object[] {"ID", "Name", "Price", "Quantiy"}, 0) {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+			
+		};
+		model.addRow(new Object[] {"1", "1", "1", "1"});
+		model.addRow(new Object[] {"1", "1", "1", "1"});
+		
+		tableCus.setModel(model);
+		
+		tableCus.getSelectionModel().addListSelectionListener(new EquipmentListener(this));
 		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
 		tableCus.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		
@@ -142,7 +141,8 @@ public class PanelEquipment extends JPanel {
 		panelDecor_1.setBounds(10, 43, 10, 4);
 		add(panelDecor_1);
 		
-		JButton btnAdd = new JButton("ADD");
+		btnAdd = new JButton("ADD");
+		btnAdd.addActionListener(new EquipmentListener(this));
 		btnAdd.setFocusPainted(false);
 		btnAdd.setBorderPainted(false);
 		btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -151,7 +151,8 @@ public class PanelEquipment extends JPanel {
 		btnAdd.setBorder(null);
 		add(btnAdd);
 		
-		JButton btnUpdate = new JButton("UPDATE");
+		btnUpdate = new JButton("UPDATE");
+		btnUpdate.addActionListener(new EquipmentListener(this));
 		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnUpdate.setFocusPainted(false);
 		btnUpdate.setBorderPainted(false);
@@ -160,7 +161,8 @@ public class PanelEquipment extends JPanel {
 		btnUpdate.setBounds(390, 254, 85, 30);
 		add(btnUpdate);
 		
-		JButton btnDelete = new JButton("DELETE");
+		btnDelete = new JButton("DELETE");
+		btnDelete.addActionListener(new EquipmentListener(this));
 		btnDelete.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnDelete.setFocusPainted(false);
 		btnDelete.setBorderPainted(false);
@@ -169,8 +171,93 @@ public class PanelEquipment extends JPanel {
 		btnDelete.setBounds(517, 254, 85, 30);
 		add(btnDelete);
 		
+		btnCancel = new JButton("CANCEL");
+		btnCancel.addActionListener(new EquipmentListener(this));
+		btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnCancel.setFocusPainted(false);
+		btnCancel.setBorderPainted(false);
+		btnCancel.setBorder(null);
+		btnCancel.setBackground(new Color(0, 128, 128));
+		btnCancel.setBounds(390, 254, 85, 30);
+		add(btnCancel);
 		
+		btnSave_add = new JButton("SAVE");
+		btnSave_add.addActionListener(new EquipmentListener(this));
+		btnSave_add.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnSave_add.setFocusPainted(false);
+		btnSave_add.setBorderPainted(false);
+		btnSave_add.setBorder(null);
+		btnSave_add.setBackground(new Color(255, 255, 0));
+		btnSave_add.setBounds(517, 254, 85, 30);
+		add(btnSave_add);
+		
+		btnSave_update = new JButton("SAVE");
+		btnSave_update.addActionListener(new EquipmentListener(this));
+		btnSave_update.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnSave_update.setFocusPainted(false);
+		btnSave_update.setBorderPainted(false);
+		btnSave_update.setBorder(null);
+		btnSave_update.setBackground(new Color(255, 255, 0));
+		btnSave_update.setBounds(517, 254, 85, 30);
+		add(btnSave_update);
 		//scrollPane.add(table);
-
+		SetTextEnable(false);
+	}
+	public void SetTextFieldNull() {
+		this.txtId.setText(null);
+		this.txtPrice.setText(null);
+		this.txtQuantity.setText(null);
+		
+	}
+	public void SetTextEnable(boolean b) {
+		this.txtId.setEnabled(b);
+		this.txtPrice.setEnabled(b);
+		this.txtQuantity.setEnabled(b);
+		this.cbName.setEnabled(b);
+	}
+	public void SetButtonVisibile(boolean b) {
+		this.btnAdd.setVisible(b);
+		this.btnUpdate.setVisible(b);
+		this.btnDelete.setVisible(b);
+	}
+	public void SetDataTextField(int row) {
+		this.txtId.setText(this.tableCus.getValueAt(row, 0).toString());
+		this.cbName.setSelectedItem(this.tableCus.getValueAt(row, 1).toString());
+		this.txtPrice.setText(this.tableCus.getValueAt(row, 2).toString());
+		this.txtQuantity.setText(this.tableCus.getValueAt(row, 3).toString());
+		
+	}
+	public JTextField getTxtId() {
+		return txtId;
+	}
+	public JTextField getTxtPrice() {
+		return txtPrice;
+	}
+	public JTextField getTxtQuantity() {
+		return txtQuantity;
+	}
+	public JComboBox getCbName() {
+		return cbName;
+	}
+	public JTable getTableCus() {
+		return tableCus;
+	}
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
+	public JButton getBtnUpdate() {
+		return btnUpdate;
+	}
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+	public JButton getBtnSave_add() {
+		return btnSave_add;
+	}
+	public JButton getBtnSave_update() {
+		return btnSave_update;
 	}
 }
