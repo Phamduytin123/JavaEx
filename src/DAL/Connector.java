@@ -61,8 +61,14 @@ public class Connector {
 	public void ConnectToDatabase() {
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			String connectionUrl=
-					"jdbc:sqlserver://localhost:1433;DatabaseName=PBL3new;user=sa;password=123123;encrypt=false;";
+			
+			
+//			String connectionUrl="jdbc:sqlserver://localhost:1433;DatabaseName=PBL3new;user=sa;password=123123;encrypt=false;";
+			
+			//Tin
+			String connectionUrl ="jdbc:sqlserver://MSI\\SQLEXPRESS:1433;encrypt=true;databaseName=GymCenter;integratedSecurity=true;trustServerCertificate=true;";
+			
+			
 			conn= DriverManager.getConnection(connectionUrl);
 			statement=conn.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -95,10 +101,9 @@ public class Connector {
 	public ResultSet excuteQuery(String sqlCommand) {
 		this.ConnectToDatabase();
 		try {
-			PreparedStatement statement = conn.prepareStatement(sqlCommand);
-			 instance.result = statement.executeQuery();
-			 instance.result.close();
-			 statement.close();
+			 instance.result = statement.executeQuery(sqlCommand);
+//			 instance.result.close();
+//			 statement.close();
 			 instance.conn.close();
 			
 		} catch (SQLException e) {

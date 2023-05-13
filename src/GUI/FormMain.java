@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 
@@ -56,7 +57,12 @@ public class FormMain extends JFrame {
 		
 		
 		
-		panelCustomer = new PanelCustomer();
+		try {
+			panelCustomer = new PanelCustomer();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		panelCustomer.setLayout(null);
 		panelCustomer.setBounds(189, 0, 671, 553);
 		contentPane.add(panelCustomer);
