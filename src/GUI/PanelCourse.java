@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import GUI.Listener.BillListener;
+import GUI.Listener.CourseListener;
 import GUI.Listener.CustomerListener;
 
 import javax.swing.JLabel;
@@ -142,7 +144,78 @@ public class PanelCourse extends JPanel {
 		txtPrice.setEditable(b);
 
 	}
+	public void SetTextUnEditable() {
+		txtCourseID.setEditable(false);
+		txtKind.setEditable(false);
+		txtPrice.setEditable(false);
+		
+	}
 	
+	public void SetTextEditable() {
+		txtCourseID.setEnabled(true);
+		txtKind.setEditable(true);
+		txtPrice.setEditable(true);
+		
+	}
+
+	public void SetTextInfor(int index) {
+		txtCourseID.setText(tableCus.getValueAt(index, 0)+"");
+		txtKind.setText(tableCus.getValueAt(index, 1)+"");
+		txtPrice.setText(tableCus.getValueAt(index, 2)+"");
+		
+	}
+	
+	public void AddListener() {
+		tableCus.getSelectionModel().addListSelectionListener(new CourseListener(this));
+		btnAdd.addActionListener(new CourseListener(this));
+		btnCancel.addActionListener(new CourseListener(this));
+		btnUpdate.addActionListener(new CourseListener(this));
+	}
+	
+	public void PressCancel() {
+		SetTextUnEditable();
+		btnCancel.setEnabled(false);
+		btnAdd.setEnabled(true);
+		btnUpdate.setEnabled(true);
+		btnAdd.setText("Thêm");
+		btnUpdate.setText("Sửa");
+	}
+	
+	public void PressAdd() {
+		SetTextEditable();
+		btnUpdate.setEnabled(false);
+		btnCancel.setEnabled(true);
+		btnAdd.setText("Lưu");
+	}
+	
+	public void PressSaveAdd() {
+//		String cusName = txtCus.getText();
+//		String staffName = txtUser.getText();
+//		String courseName = cbbCourseInfor.getSelectedItem().toString();
+//		String DOB = txtDate.getText();
+//		int total = Integer.parseInt(txtTotal.getText());
+//		
+//		LocalDate date = LocalDate.now();
+		
+		SetTextUnEditable();
+		btnUpdate.setEnabled(true);
+		btnCancel.setEnabled(false);
+		btnAdd.setText("Thêm");
+	}
+	
+	public void PressUpdate() {
+		SetTextEditable();
+		btnAdd.setEnabled(false);
+		btnCancel.setEnabled(true);
+		btnUpdate.setText("Lưu");
+	}
+	
+	public void PressSaveUpdate() {
+		SetTextUnEditable();
+		btnAdd.setEnabled(true);
+		btnCancel.setEnabled(false);
+		btnUpdate.setText("Sửa");
+	}
 	
 	public JTextField getTxtCourseID() {
 		return txtCourseID;
@@ -168,7 +241,5 @@ public class PanelCourse extends JPanel {
 	public JTable getTableCus() {
 		return tableCus;
 	}
-	public void SetTextInfor(int index) {
-		
-	}
+	
 }

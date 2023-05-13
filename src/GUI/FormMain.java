@@ -16,9 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 
-public class FormMain extends JFrame implements ActionListener{
+public class FormMain extends JFrame implements ActionListener {
 	private JPanel contentPane;
 	private PanelCustomer panelCustomer;
 	private JPanel pnMenu;
@@ -32,6 +33,7 @@ public class FormMain extends JFrame implements ActionListener{
 	private JButton btnSignOut;
 	private JButton btnCustomer;
 	private PanelBill panelBill;
+	private LabelTrangChu lbTrangchu;
 	/**
 	 * Launch the application.
 	 */
@@ -69,6 +71,10 @@ public class FormMain extends JFrame implements ActionListener{
 		contentPane.add(pnMenu);
 		
 		
+		lbTrangchu = new LabelTrangChu();
+		lbTrangchu.setLayout(null);
+		lbTrangchu.setBounds(189, 0, 671, 553);
+		contentPane.add(lbTrangchu);
 		
 		panelCustomer = new PanelCustomer();
 		panelCustomer.setLayout(null);
@@ -91,10 +97,10 @@ public class FormMain extends JFrame implements ActionListener{
 		panelUser.setBounds(189, 0, 671, 553);
 		contentPane.add(panelUser);
 		
-//		panelBill = new PanelBill();
-//		panel.setLayout(null);
-//		panelUser.setBounds(189, 0, 671, 553);
-//		contentPane.add(panelUser);
+		panelBill = new PanelBill();
+		panelBill.setLayout(null);
+		panelBill.setBounds(189, 0, 671, 553);
+		contentPane.add(panelBill);
 		
 		
 		
@@ -140,10 +146,16 @@ public class FormMain extends JFrame implements ActionListener{
 		btnCustomer.setBounds(0, 219, 190, 57);
 		pnMenu.add(btnCustomer);
 		
-		JPanel panelAvatar = new JPanel();
-		panelAvatar.setBackground(Color.PINK);
-		panelAvatar.setBounds(0, 0, 190, 190);
-		pnMenu.add(panelAvatar);
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(FormMain.class.getResource("/photo/Avatar.jpg")));
+		lblNewLabel.setBounds(0, 0, 190, 190);
+		pnMenu.add(lblNewLabel);
+		
+		this.panelBill.setVisible(false);
+		this.panelCustomer.setVisible(false);
+		this.panelCourse.setVisible(false);
+		this.panelEquipment.setVisible(false);
+		this.panelUser.setVisible(false);
 		
 	}
 
@@ -155,24 +167,44 @@ public class FormMain extends JFrame implements ActionListener{
 			panelEquipment.setVisible(false);
 			panelCourse.setVisible(false);
 			panelUser.setVisible(false);
+			panelBill.setVisible(false);
+			lbTrangchu.setVisible(false);
 		}
 		else if (e.getSource() == btnEquipment) {
 			panelCustomer.setVisible(false);
 			panelEquipment.setVisible(true);
 			panelCourse.setVisible(false);
 			panelUser.setVisible(false);
+			panelBill.setVisible(false);
+			lbTrangchu.setVisible(false);
 		}
 		else if (e.getSource() == btnCourse) {
 			panelCustomer.setVisible(false);
 			panelEquipment.setVisible(false);
 			panelCourse.setVisible(true);
 			panelUser.setVisible(false);
+			lbTrangchu.setVisible(false);
+			panelBill.setVisible(false);
 		}
 		else if (e.getSource() == btnUser) {
 			panelCustomer.setVisible(false);
 			panelEquipment.setVisible(false);
 			panelCourse.setVisible(false);
 			panelUser.setVisible(true);
+			lbTrangchu.setVisible(false);
+			panelBill.setVisible(false);
 		}
+		else if (e.getSource() == btnBill) {
+			panelCustomer.setVisible(false);
+			panelEquipment.setVisible(false);
+			panelCourse.setVisible(false);
+			lbTrangchu.setVisible(false);
+			panelUser.setVisible(false);
+			panelBill.setVisible(true);
+			
+		}else if (e.getSource() == btnSignOut) {
+			System.exit(0);
+		}
+		
 	}
 }

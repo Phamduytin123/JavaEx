@@ -19,25 +19,20 @@ public class BLLCustomer {
 			instance = new BLLCustomer();
 		return instance;
 	}
-	public void insert(String name, String PhoneNumber, String Gender) {
+	public boolean insert(String name, String PhoneNumber, String Gender) {
 		Customer cus = new Customer(name,PhoneNumber,Gender);
-		int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn thêm khách hàng này?",null,JOptionPane.YES_NO_OPTION);
-		if(choice == JOptionPane.YES_OPTION) {
 			try {
-				if(DAOCustomer.getInstance().insert(cus) > 0)
-					JOptionPane.showMessageDialog(null, "Thêm khách hàng thất bại");
-				else
-					JOptionPane.showMessageDialog(null, "Thêm khách hàng thất bại");
+				return DAOCustomer.getInstance().insert(cus) > 0;
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return false;
 			}
-		}
+			
+		
 	}
-	public void delete(int id) {
-		int choice = JOptionPane.showConfirmDialog(null, "Bạn thật sự muốn xóa khách hàng này?",null,JOptionPane.YES_NO_OPTION);
-		if(choice == JOptionPane.YES_OPTION) {
+	public boolean delete(int id) {
 			try {
+<<<<<<< Updated upstream
 				if(DAOCustomer.getInstance().delete(id) > 0)
 					JOptionPane.showMessageDialog(null, "Xóa khách hàng thành công");
 				else
@@ -45,23 +40,27 @@ public class BLLCustomer {
 			} 
 			catch (HeadlessException | ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
+=======
+				return DAOCustomer.getInstance().delete(id) > 0;
+					
+			} catch (HeadlessException | ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				return false;
+>>>>>>> Stashed changes
 			}
-		}
 	}
-	public void update(int id, String name, String phonenum, String gender) {
+	public boolean update(int id, String name, String phonenum, String gender) {
 		Customer cus = new Customer(id,name,phonenum,gender);
-		int choice = JOptionPane.showConfirmDialog(null, "Bạn có thật sự muốn cập nhật khách hàng này?",null,JOptionPane.YES_NO_OPTION);
-		if(choice == JOptionPane.YES_OPTION) {
+		
 			try {
-				if(DAOCustomer.getInstance().update(cus) > 0)
-					JOptionPane.showMessageDialog(null, "Cập nhật khách hàng thành công");
-				else
-					JOptionPane.showMessageDialog(null, "Cập nhật khách hàng thất bại");
+				return DAOCustomer.getInstance().update(cus) > 0;
+				
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
+				return false;
 			}
-		}
+		
 	}
 	public Customer selectById(int id) throws ClassNotFoundException, SQLException {
 		return DAOCustomer.getInstance().selectByID(id);
