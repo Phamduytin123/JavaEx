@@ -23,6 +23,8 @@ public class FormMain extends JFrame implements ActionListener{
 	private PanelCustomer panelCustomer;
 	private JPanel pnMenu;
 	private PanelEquipment panelEquipment;
+	private PanelCourse panelCourse;
+	private PanelUser panelUser;
 	private JButton btnEquipment;
 	private JButton btnCourse;
 	private JButton btnBill;
@@ -72,10 +74,21 @@ public class FormMain extends JFrame implements ActionListener{
 		panelCustomer.setBounds(189, 0, 671, 553);
 		contentPane.add(panelCustomer);
 		
+		
 		panelEquipment = new PanelEquipment();
 		panelEquipment.setLayout(null);
 		panelEquipment.setBounds(189, 0, 671, 553);
 		contentPane.add(panelEquipment);
+		
+		panelCourse = new PanelCourse();
+		panelCourse.setLayout(null);
+		panelCourse.setBounds(189, 0, 671, 553);
+		contentPane.add(panelCourse);
+		
+		panelUser = new PanelUser();
+		panelUser.setLayout(null);
+		panelUser.setBounds(189, 0, 671, 553);
+		contentPane.add(panelUser);
 		
 		
 		
@@ -134,10 +147,26 @@ public class FormMain extends JFrame implements ActionListener{
 		if (e.getSource() == btnCustomer) {
 			panelCustomer.setVisible(true);
 			panelEquipment.setVisible(false);
+			panelCourse.setVisible(false);
+			panelUser.setVisible(false);
 		}
 		else if (e.getSource() == btnEquipment) {
 			panelCustomer.setVisible(false);
 			panelEquipment.setVisible(true);
+			panelCourse.setVisible(false);
+			panelUser.setVisible(false);
+		}
+		else if (e.getSource() == btnCourse) {
+			panelCustomer.setVisible(false);
+			panelEquipment.setVisible(false);
+			panelCourse.setVisible(true);
+			panelUser.setVisible(false);
+		}
+		else if (e.getSource() == btnUser) {
+			panelCustomer.setVisible(false);
+			panelEquipment.setVisible(false);
+			panelCourse.setVisible(false);
+			panelUser.setVisible(true);
 		}
 	}
 }

@@ -29,11 +29,13 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnUpdate())) {
 			//panelEquipment.SetTextFieldNull();
+			if (panelEquipment.getTableCus().getSelectedRow() != -1) {
 			panelEquipment.SetButtonVisibile(false);
 			panelEquipment.SetTextEnable(true);
 			panelEquipment.getBtnCancel().setVisible(true);
 			panelEquipment.getBtnSave_update().setVisible(true);
 			panelEquipment.getBtnSave_add().setVisible(false);
+			}
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnDelete())) {
 			DefaultTableModel model = (DefaultTableModel) panelEquipment.getTableCus().getModel();
@@ -41,18 +43,19 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnSave_add())){
 			DefaultTableModel model = (DefaultTableModel) panelEquipment.getTableCus().getModel();
-			model.addRow(new Object[] {panelEquipment.getTxtId().getText(),
+				model.addRow(new Object[] {panelEquipment.getTxtId().getText(),
 					panelEquipment.getCbName().getSelectedItem().toString(),
 					panelEquipment.getTxtPrice().getText(),
 					panelEquipment.getTxtQuantity().getText()});
-			panelEquipment.getBtnCancel().setVisible(false);
-			panelEquipment.getBtnSave_update().setVisible(false);
+				panelEquipment.getBtnCancel().setVisible(false);
+				panelEquipment.getBtnSave_update().setVisible(false);
 			panelEquipment.getBtnSave_add().setVisible(false);
 			panelEquipment.SetButtonVisibile(true);
 			panelEquipment.SetTextFieldNull();
 			panelEquipment.SetTextEnable(false);
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnSave_update())) {
+			if (panelEquipment.getTableCus().getSelectedRow() != -1) {
 			DefaultTableModel model = (DefaultTableModel) panelEquipment.getTableCus().getModel();
 			model.setValueAt(panelEquipment.getTxtId().getText(), panelEquipment.getTableCus().getSelectedRow(), 0);
 			model.setValueAt(panelEquipment.getCbName().getSelectedItem().toString() , panelEquipment.getTableCus().getSelectedRow(), 1);
@@ -64,6 +67,7 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 			panelEquipment.SetButtonVisibile(true);
 			//panelEquipment.SetTextFieldNull();
 			panelEquipment.SetTextEnable(false);
+			}
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnCancel())) {
 			panelEquipment.SetTextFieldNull();
