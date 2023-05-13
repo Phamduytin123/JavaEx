@@ -12,15 +12,26 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.SystemColor;
-import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.SwingConstants;
 
 
-public class FormMain extends JFrame {
+public class FormMain extends JFrame implements ActionListener{
 	private JPanel contentPane;
 	private PanelCustomer panelCustomer;
 	private JPanel pnMenu;
+	private PanelEquipment panelEquipment;
+	private PanelCourse panelCourse;
+	private PanelUser panelUser;
+	private JButton btnEquipment;
+	private JButton btnCourse;
+	private JButton btnBill;
+	private JButton btnUser;
+	private JButton btnSignOut;
+	private JButton btnCustomer;
+	private PanelBill panelBill;
 	/**
 	 * Launch the application.
 	 */
@@ -49,6 +60,8 @@ public class FormMain extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
+		
+		
 		pnMenu = new JPanel();
 		pnMenu.setLayout(null);
 		pnMenu.setBackground(new Color(128, 255, 255));
@@ -57,48 +70,71 @@ public class FormMain extends JFrame {
 		
 		
 		
-		try {
-			panelCustomer = new PanelCustomer();
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		panelCustomer = new PanelCustomer();
 		panelCustomer.setLayout(null);
 		panelCustomer.setBounds(189, 0, 671, 553);
 		contentPane.add(panelCustomer);
 		
 		
-		JButton btnEquipment = new JButton("EQUIPMENT");
+		panelEquipment = new PanelEquipment();
+		panelEquipment.setLayout(null);
+		panelEquipment.setBounds(189, 0, 671, 553);
+		contentPane.add(panelEquipment);
+		
+		panelCourse = new PanelCourse();
+		panelCourse.setLayout(null);
+		panelCourse.setBounds(189, 0, 671, 553);
+		contentPane.add(panelCourse);
+		
+		panelUser = new PanelUser();
+		panelUser.setLayout(null);
+		panelUser.setBounds(189, 0, 671, 553);
+		contentPane.add(panelUser);
+		
+//		panelBill = new PanelBill();
+//		panel.setLayout(null);
+//		panelUser.setBounds(189, 0, 671, 553);
+//		contentPane.add(panelUser);
+		
+		
+		
+		btnEquipment = new JButton("EQUIPMENT");
+		btnEquipment.addActionListener(this);
 		btnEquipment.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnEquipment.setBackground(SystemColor.activeCaption);
 		btnEquipment.setBounds(0, 274, 190, 57);
 		pnMenu.add(btnEquipment);
 		
-		JButton btnCourse = new JButton("COURSE");
+		btnCourse = new JButton("COURSE");
+		btnCourse.addActionListener(this);
 		btnCourse.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnCourse.setBackground(SystemColor.activeCaption);
 		btnCourse.setBounds(0, 327, 190, 57);
 		pnMenu.add(btnCourse);
 		
-		JButton btnBill = new JButton("BILL");
+		btnBill = new JButton("BILL");
+		btnBill.addActionListener(this);
 		btnBill.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnBill.setBackground(SystemColor.activeCaption);
 		btnBill.setBounds(0, 382, 190, 57);
 		pnMenu.add(btnBill);
 		
-		JButton btnUser = new JButton("USER");
+		btnUser = new JButton("USER");
+		btnUser.addActionListener(this);
 		btnUser.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnUser.setBackground(SystemColor.activeCaption);
 		btnUser.setBounds(0, 439, 190, 57);
 		pnMenu.add(btnUser);
 		
-		JButton btnSignOut = new JButton("SIGN OUT");
+		btnSignOut = new JButton("SIGN OUT");
+		btnSignOut.addActionListener(this);
 		btnSignOut.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnSignOut.setBackground(SystemColor.activeCaption);
 		btnSignOut.setBounds(0, 496, 190, 57);
 		pnMenu.add(btnSignOut);
 		
-		JButton btnCustomer = new JButton("CUSTOMER");
+		btnCustomer = new JButton("CUSTOMER");
+		btnCustomer.addActionListener(this);
 		btnCustomer.setFont(new Font("Yu Mincho Demibold", Font.PLAIN, 15));
 		btnCustomer.setBackground(SystemColor.activeCaption);
 		btnCustomer.setBounds(0, 219, 190, 57);
@@ -109,5 +145,34 @@ public class FormMain extends JFrame {
 		panelAvatar.setBounds(0, 0, 190, 190);
 		pnMenu.add(panelAvatar);
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getSource() == btnCustomer) {
+			panelCustomer.setVisible(true);
+			panelEquipment.setVisible(false);
+			panelCourse.setVisible(false);
+			panelUser.setVisible(false);
+		}
+		else if (e.getSource() == btnEquipment) {
+			panelCustomer.setVisible(false);
+			panelEquipment.setVisible(true);
+			panelCourse.setVisible(false);
+			panelUser.setVisible(false);
+		}
+		else if (e.getSource() == btnCourse) {
+			panelCustomer.setVisible(false);
+			panelEquipment.setVisible(false);
+			panelCourse.setVisible(true);
+			panelUser.setVisible(false);
+		}
+		else if (e.getSource() == btnUser) {
+			panelCustomer.setVisible(false);
+			panelEquipment.setVisible(false);
+			panelCourse.setVisible(false);
+			panelUser.setVisible(true);
+		}
 	}
 }
