@@ -2,13 +2,19 @@ package GUI.Listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< Updated upstream
 
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+=======
+import java.util.Vector;
+
+>>>>>>> Stashed changes
 import javax.swing.table.DefaultTableModel;
 
 import GUI.PanelEquipment;
 
+<<<<<<< Updated upstream
 public class EquipmentListener implements ActionListener, ListSelectionListener{
 	private PanelEquipment panelEquipment;
 	public EquipmentListener(PanelEquipment panelEquipment) {
@@ -16,10 +22,19 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 		this.panelEquipment = panelEquipment;
 	}
 
+=======
+public class  EquipmentListener implements ActionListener{
+	private PanelEquipment panelEquipment;
+	public EquipmentListener(PanelEquipment panelEquipment) {
+		super();
+		this.panelEquipment = panelEquipment;
+	}
+>>>>>>> Stashed changes
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getSource().equals(panelEquipment.getBtnAdd())) {
+<<<<<<< Updated upstream
 			panelEquipment.SetTextFieldNull();
 			panelEquipment.SetButtonVisibile(false);
 			panelEquipment.SetTextEnable(true);
@@ -90,4 +105,57 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 	}
 	
 	
+=======
+			panelEquipment.SetTextFieldEnable(true);
+			panelEquipment.SetTextFieldNull();
+			panelEquipment.SetButtonVisible(false);
+			panelEquipment.getBtnSave_Add().setVisible(true);
+			//panelCustomer.getBtnSave_Update().setVisible(false);
+		}
+		else if (e.getSource() == panelEquipment.getBtnDelete()) {
+
+		}
+		else if (e.getSource() == panelEquipment.getBtnUpdate()) {
+			panelEquipment.SetTextFieldEnable(true);
+			
+			panelEquipment.SetButtonVisible(false);
+			//panelCustomer.getBtnSave_Add().setVisible(false);
+			panelEquipment.getBtnSave_Update().setVisible(true);
+		}
+		else if (e.getSource() == panelEquipment.getBtnCancel()) {
+			panelEquipment.SetButtonVisible(true);
+			panelEquipment.getBtnSave_Add().setVisible(false);
+			panelEquipment.getBtnSave_Update().setVisible(false);
+			panelEquipment.SetTextFieldNull();
+			panelEquipment.SetTextFieldEnable(false);
+		}
+		else if (e.getSource() == panelEquipment.getBtnSave_Add()) {
+			DefaultTableModel model = (DefaultTableModel) panelEquipment.getTableCus().getModel();
+			Vector<String> row = new Vector<String>();
+			row.add(panelEquipment.getTxtId().getText());
+			row.add(panelEquipment.getCbName().getSelectedItem().toString());
+			row.add(panelEquipment.getTxtPrice().getText());
+			row.add(panelEquipment.getTxtQuantity().toString());
+			model.addRow(row);
+			//panelCustomer.getTableCus().setModel(model);
+			panelEquipment.SetTextFieldEnable(false);
+			panelEquipment.SetButtonVisible(true);
+			panelEquipment.getBtnSave_Add().setVisible(false);;
+		}
+		else if(e.getSource() == panelEquipment.getBtnSave_Update()) {
+			int selectedRow = panelEquipment.getTableCus().getSelectedRow();
+			//System.out.println(selectedRow);
+			panelEquipment.getTableCus().setValueAt(panelEquipment.getTxtId().getText(),selectedRow, 0);
+			panelEquipment.getTableCus().setValueAt(panelEquipment.getCbName().getSelectedItem().toString(),selectedRow, 1);
+			panelEquipment.getTableCus().setValueAt(panelEquipment.getTxtPrice().getText(),selectedRow, 2);
+			panelEquipment.getTableCus().setValueAt(panelEquipment.getTxtQuantity().getText(),selectedRow, 3);
+			//System.out.println(selectedRow);
+			panelEquipment.SetTextFieldEnable(false);
+			panelEquipment.SetButtonVisible(true);
+			panelEquipment.getBtnSave_Update().setVisible(false);
+			
+		}
+	}
+
+>>>>>>> Stashed changes
 }
