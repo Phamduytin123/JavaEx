@@ -96,7 +96,34 @@ Connection Conn = JDBCUtils.getConnection();
 		
 		stmt.setInt(1, t);
 
-		Customer customer = new Customer("","","");
+		Customer customer = null;
+		
+		ResultSet rs = stmt.executeQuery();
+		try {
+			while(rs.next()) {
+				int id = rs.getInt(1);
+				String Name = rs.getString(2);
+				String phoneNumber = rs.getString(3);
+				String Gender = rs.getString(4);
+				customer = new Customer(id,Name,phoneNumber,Gender);
+			}
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(Conn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return customer;
+	}
+	public Customer selectByPhoneNumber(String phonenum) throws SQLException, ClassNotFoundException {
+		Connection Conn = JDBCUtils.getConnection(); 
+		
+		String query = "SELECT * FROM Customer WHERE Id = N'?'";
+		PreparedStatement stmt = Conn.prepareStatement(query);
+		
+		stmt.setString(1, phonenum);
+
+		Customer customer = null;
 		
 		ResultSet rs = stmt.executeQuery();
 		try {

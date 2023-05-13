@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import DTO.Bill;
+import DTO.BillInfor;
 import DTO.Course;
 
 public class DAOBill implements DAOUtils<Bill, Integer>{
@@ -120,5 +121,34 @@ public class DAOBill implements DAOUtils<Bill, Integer>{
 			e.printStackTrace();
 		}
 		return bill;
+	}
+	public ArrayList<BillInfor> selectAllBillInfor() throws SQLException{
+		ArrayList<BillInfor> billinfors = new ArrayList<BillInfor>();
+		
+		Connection con = JDBCUtils.getConnection();
+		String query = String.format("Select b.ID,b.Total,b.DateBook,ua.FullName ,c.NameCus,c.PhoneNumber,co.Kind From Bill as b, UserAccount as ua, Customer as c,Course as co "
+				+ "	Where b.IDCustomer = c.ID and b.IDUser = ua.ID and b.IDCourse = co.ID");
+		
+		PreparedStatement stmt = con.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+		try {
+			while(rs.next()) {
+				int id = rs.getInt(1);
+				int total = rs.getInt(2);
+				LocalDate date = rs.getDate(3).toLocalDate();
+				String fullname = rs.getString(4);
+				String nameCus = rs.getString(5);
+				String phonenum = rs.getString(6);
+				String kind = rs.getString(7);
+				BillInfor billinfor = new BillInfor(id,nameCus, fullname,phonenum,kind, date,total);
+				billinfors.add(billinfor);
+			}
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(con);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return billinfors;
 	}
 }

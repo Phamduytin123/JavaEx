@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import DAL.DAOBill;
 import DTO.Bill;
+import DTO.BillInfor;
 
 public class BLLBill {
 	private static BLLBill instance;
@@ -70,5 +71,8 @@ public class BLLBill {
 	}
 	public ArrayList<Bill> selectAll() throws ClassNotFoundException, SQLException{
 		return DAOBill.Instance().selectAll();
+	}
+	public ArrayList<BillInfor> getAllBillInfor() throws SQLException{
+		return DAOBill.Instance().selectAllBillInfor();
 	}
 }

@@ -8,9 +8,28 @@ public class BillInfor {
 	private String staffName;
 	private String cusName;
 	private int idBill;
-	private String courseName;
+	private String phonenum;
+	private String kind;
 	private LocalDate date;
 	private int total;
+	public String getKind() {
+		return kind;
+	}
+	public void setKind(String kind) {
+		this.kind = kind;
+	}
+	public int getIdBill() {
+		return idBill;
+	}
+	public void setIdBill(int idBill) {
+		this.idBill = idBill;
+	}
+	public String getPhonenum() {
+		return phonenum;
+	}
+	public void setPhonenum(String phonenum) {
+		this.phonenum = phonenum;
+	}
 	public String getStaffName() {
 		return staffName;
 	}
@@ -29,12 +48,6 @@ public class BillInfor {
 	public void setIiBill(int iiBill) {
 		this.idBill = iiBill;
 	}
-	public String getCourseName() {
-		return courseName;
-	}
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
 	public LocalDate getDate() {
 		return date;
 	}
@@ -47,12 +60,22 @@ public class BillInfor {
 	public void setTotal(int total) {
 		this.total = total;
 	}
-	public BillInfor (int idBill,String cusName, String staffName,String courseName, int total) {
+	public BillInfor (int idBill,String cusName, String staffName,String phonenumber,String kind, int total) {
 	this.idBill = idBill;
 	this.cusName = cusName;
 	this.staffName = staffName;
-	this.courseName = courseName;
+	this.phonenum = phonenumber;
+	this.kind = kind;
 	this.date = LocalDateTime.now().toLocalDate();
 	this.total = total;
 	}
+	public BillInfor (int idBill,String cusName, String staffName,String phonenumber,String kind, LocalDate date,int total) {
+		this.idBill = idBill;
+		this.cusName = cusName;
+		this.staffName = staffName;
+		this.phonenum = phonenumber;
+		this.kind = kind;
+		this.date = date;
+		this.total = total;
+		}
 }

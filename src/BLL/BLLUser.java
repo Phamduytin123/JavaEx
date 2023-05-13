@@ -23,7 +23,7 @@ public class BLLUser {
 		int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn thêm người dùng?",null,JOptionPane.YES_NO_OPTION);
 		if(choice == JOptionPane.YES_OPTION) {
 			try {
-				if(DAOUser.Instance().insert(user) > 0)
+				if(DAOUser.getInstance().insert(user) > 0)
 					JOptionPane.showMessageDialog(null, "Thêm người dùng thành công");
 				else
 					JOptionPane.showMessageDialog(null, "Thêm người dùng thất bại");
@@ -37,7 +37,7 @@ public class BLLUser {
 		int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa người dùng này",null,JOptionPane.YES_NO_OPTION);
 		if(choice == JOptionPane.YES_OPTION) {
 			try {
-				if(DAOUser.Instance().delete(id) > 0)
+				if(DAOUser.getInstance().delete(id) > 0)
 					JOptionPane.showMessageDialog(null, "Xóa người dùng thành công");
 				else
 					JOptionPane.showMessageDialog(null, "Xóa người dùng thất bại");
@@ -52,7 +52,7 @@ public class BLLUser {
 		int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn cập nhật dụng cụ tập",null,JOptionPane.YES_NO_OPTION);
 		if(choice == JOptionPane.YES_OPTION) {
 			try {
-				if(DAOUser.Instance().update(user) > 0)
+				if(DAOUser.getInstance().update(user) > 0)
 					JOptionPane.showMessageDialog(null, "Cập nhật người dùng thành công");
 				else
 					JOptionPane.showMessageDialog(null, "Cập nhật người dùng thất bại");
@@ -63,9 +63,9 @@ public class BLLUser {
 		}
 	}
 	public User selectById(int id) throws ClassNotFoundException, SQLException {
-		return DAOUser.Instance().selectByID(id);
+		return DAOUser.getInstance().selectByID(id);
 	}
 	public ArrayList<User> selecAll() throws ClassNotFoundException, SQLException{
-		return DAOUser.Instance().selectAll();
+		return DAOUser.getInstance().selectAll();
 	}
 }
