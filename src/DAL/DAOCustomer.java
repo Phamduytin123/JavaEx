@@ -34,11 +34,8 @@ public class DAOCustomer implements DAOUtils<Customer, Integer>{
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
 		Connection con = JDBCUtils.getConnection();
-<<<<<<< Updated upstream
-		String command ="Delete From Customer Where Id ="+t;
-=======
+
 		String command ="Delete from Customer Where Id = "+t;
->>>>>>> Stashed changes
 		PreparedStatement psm = con.prepareStatement(command);
 		data = psm.executeUpdate();
 		psm.close();

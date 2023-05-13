@@ -32,21 +32,11 @@ public class BLLCustomer {
 	}
 	public boolean delete(int id) {
 			try {
-<<<<<<< Updated upstream
-				if(DAOCustomer.getInstance().delete(id) > 0)
-					JOptionPane.showMessageDialog(null, "Xóa khách hàng thành công");
-				else
-					JOptionPane.showMessageDialog(null, "Xóa khách hàng thất bại");
-			} 
-			catch (HeadlessException | ClassNotFoundException | SQLException e) {
-				e.printStackTrace();
-=======
 				return DAOCustomer.getInstance().delete(id) > 0;
 					
 			} catch (HeadlessException | ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				return false;
->>>>>>> Stashed changes
 			}
 	}
 	public boolean update(int id, String name, String phonenum, String gender) {
