@@ -3,6 +3,8 @@ package GUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DTO.User;
 import GUI.Listener.EquipmentListener;
 import GUI.Listener.UserListener;
 
@@ -39,6 +42,7 @@ public class PanelUser extends JPanel {
 	private JPanel panel;
 	private JTextField txtName;
 	private JTextField txtAddress;
+	private ArrayList<User> rows;
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
@@ -120,8 +124,22 @@ public class PanelUser extends JPanel {
 		    }
 			
 		};
-//		model.addRow(new Object[] {"1", "1", "1", "1"});
-//		model.addRow(new Object[] {"1", "1", "1", "1"});
+		try {
+			rows = BLL.BLLUser.Instance().selecAll();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		for (int i = 0; i < rows.size(); i ++) {
+			int id = rows.get(i).getID();
+			String username = rows.get(i).getUserName();
+			String password = rows.get(i).getPassword();
+			String address = rows.get(i).getAddress();
+			String role = rows.get(i).getRole();
+			String name = rows.get(i).getFullName();
+			model.addRow(new Object[] {id, name, role, address, username, password});
+		}
+
 		
 		tableCus.setModel(model);
 		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -227,6 +245,12 @@ public class PanelUser extends JPanel {
 		add(panel);
 		AddListener();
 		SetTextEnable(false);
+	}
+	public ArrayList<User> getRows() {
+		return rows;
+	}
+	public void setRows(ArrayList<User> rows) {
+		this.rows = rows;
 	}
 	public void AddListener() {
 		btnSave_update.addActionListener(new UserListener(this));

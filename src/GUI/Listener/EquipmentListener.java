@@ -42,7 +42,7 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnDelete())) {
 			DefaultTableModel model = (DefaultTableModel) panelEquipment.getTableCus().getModel();
-			model.removeRow(panelEquipment.getTableCus().getSelectedRow());
+			
 			int indexRow = panelEquipment.getTableCus().getSelectedRow();
 			int choice = JOptionPane.showConfirmDialog(null, "Bạn có thật sự muốn xóa thiết bị tập này",null,JOptionPane.YES_NO_OPTION);
 			int size = panelEquipment.getRows().size();
@@ -56,6 +56,7 @@ public class EquipmentListener implements ActionListener, ListSelectionListener{
 						e1.printStackTrace();
 					}
 				}
+				model.removeRow(panelEquipment.getTableCus().getSelectedRow());
 			}
 		}
 		else if (e.getSource().equals(panelEquipment.getBtnSave_add())){

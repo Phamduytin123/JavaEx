@@ -17,7 +17,9 @@ public class DAOUser implements DAOUtils<User, Integer> {
 	@Override
 	public int insert(User t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String query = "Insert into UserAccount( UserName, UserPassword, UserRole, FullName, Address) Values( ?, ?, ?, ?, ?)";
+
+		String query = "Insert into UserAccount( UserName, UserPassword, UserRole, FullName, UserAddress) Values( ?, ?, ?, ?, ?)";
+
 		Connection con = JDBCUtils.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1,t.getUserName());
@@ -34,7 +36,9 @@ public class DAOUser implements DAOUtils<User, Integer> {
 	@Override
 	public int delete(Integer t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String query = "Delete UserAccout Where Id = "+t;
+
+		String query = "Delete from UserAccount Where Id = "+t;
+
 		Connection con = JDBCUtils.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		data = stmt.executeUpdate();
@@ -46,7 +50,7 @@ public class DAOUser implements DAOUtils<User, Integer> {
 	@Override
 	public int update(User t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String query = "Update UserAccount Set UserName = ?, UserPassword = ?, UserRole = ?, FullName = ?, Address = ? Where Id = ?" ;
+		String query = "Update UserAccount Set UserName = ?, UserPassword = ?, UserRole = ?, FullName = ?, UserAddress = ? Where Id = ?" ;
 		Connection con = JDBCUtils.getConnection();
 		PreparedStatement stmt = con.prepareStatement(query);
 		stmt.setString(1, t.getUserName());
