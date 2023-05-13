@@ -116,5 +116,30 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 		}
 		return course;
 	}
+	public ArrayList<Course> selectByKind(String kind) throws SQLException, ClassNotFoundException {
+		Connection con = JDBCUtils.getConnection();
+		ArrayList<Course> courses  = new ArrayList<Course>();
+		
+		String sql = "Select * from Course Where Kind = "+kind;
+		
+		PreparedStatement stmt = con.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		
+		try {
+			while(rs.next()) {
+				int id = rs.getInt(1);
+				int price = rs.getInt(3);
+				Course course = new Course(id,kind,price);
+				courses.add(course);
+			}
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(con);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return courses;
+	}
 	
 }

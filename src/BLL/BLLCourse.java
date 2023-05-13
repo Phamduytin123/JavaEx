@@ -55,4 +55,7 @@ public class BLLCourse {
 	public ArrayList<Course> selectAll() throws ClassNotFoundException, SQLException{
 		return DAOCourse.getInstance().selectAll();
 	}
+	public ArrayList<Course> selectAll(String kind) throws ClassNotFoundException, SQLException{
+		return DAOCourse.getInstance().selectByKind(kind);
+	}
 }
