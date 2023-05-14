@@ -80,6 +80,8 @@ public class UserListener implements ActionListener, ListSelectionListener{
 							)) {
 						
 						try {
+							
+							panelUser.setRows(BLL.BLLUser.Instance().selecAll());
 							int size = panelUser.getRows().size();
 							model.addRow(new Object[] {panelUser.getRows().get(size - 1).getID(),
 									panelUser.getTxtName().getText(),
@@ -87,7 +89,6 @@ public class UserListener implements ActionListener, ListSelectionListener{
 									panelUser.getTxtAddress().getText(),
 									panelUser.getTxtUsername().getText(),
 									panelUser.getTxtPassword().getText()});
-							panelUser.setRows(BLL.BLLUser.Instance().selecAll());
 						} catch (ClassNotFoundException  | SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -111,13 +112,38 @@ public class UserListener implements ActionListener, ListSelectionListener{
 			if (panelUser.getTableCus().getSelectedRow() != -1) {
 				DefaultTableModel model = (DefaultTableModel) panelUser.getTableCus().getModel();
 				
+				int choice = JOptionPane.showConfirmDialog(null, "Bạn có thật sự muốn cập nhật khách hàng này?",null,JOptionPane.YES_NO_OPTION);
+				if(choice == JOptionPane.YES_OPTION) {
+					int id = Integer.parseInt(panelUser.getTxtId().getText());
+					String name = panelUser.getTxtName().getText();
+					String role = panelUser.getCbRole().getSelectedItem().toString();
+					String address = panelUser.getTxtAddress().getText();
+					String username = panelUser.getTxtUsername().getText();
+					String password = panelUser.getTxtPassword().getText();
+					if (BLL.BLLUser.Instance().update(id, username, password, role ,name, address)) {
+						try {
+							model.setValueAt(id, panelUser.getTableCus().getSelectedRow(), 0);
+							model.setValueAt(name, panelUser.getTableCus().getSelectedRow(), 1);
+							model.setValueAt(role, panelUser.getTableCus().getSelectedRow(), 2);
+							model.setValueAt(address,  panelUser.getTableCus().getSelectedRow(), 3);
+							model.setValueAt(username,  panelUser.getTableCus().getSelectedRow(), 4);
+							model.setValueAt(password,  panelUser.getTableCus().getSelectedRow(), 5);
+							panelUser.setRows(BLL.BLLUser.Instance().selecAll());
+						} catch (ClassNotFoundException  | SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+					}
+					
+				}
 				
-				model.setValueAt(panelUser.getTxtId().getText(), panelUser.getTableCus().getSelectedRow(), 0);
-				model.setValueAt(panelUser.getTxtName().getText(), panelUser.getTableCus().getSelectedRow(), 1);
-				model.setValueAt(panelUser.getCbRole().getSelectedItem().toString(), panelUser.getTableCus().getSelectedRow(), 2);
-				model.setValueAt(panelUser.getTxtAddress().getText(), panelUser.getTableCus().getSelectedRow(), 3);
-				model.setValueAt(panelUser.getTxtUsername().getText(), panelUser.getTableCus().getSelectedRow(), 4);
-				model.setValueAt(panelUser.getTxtPassword().getText(), panelUser.getTableCus().getSelectedRow(), 5);
+//				model.setValueAt(panelUser.getTxtId().getText(), panelUser.getTableCus().getSelectedRow(), 0);
+//				model.setValueAt(panelUser.getTxtName().getText(), panelUser.getTableCus().getSelectedRow(), 1);
+//				model.setValueAt(panelUser.getCbRole().getSelectedItem().toString(), panelUser.getTableCus().getSelectedRow(), 2);
+//				model.setValueAt(panelUser.getTxtAddress().getText(), panelUser.getTableCus().getSelectedRow(), 3);
+//				model.setValueAt(panelUser.getTxtUsername().getText(), panelUser.getTableCus().getSelectedRow(), 4);
+//				model.setValueAt(panelUser.getTxtPassword().getText(), panelUser.getTableCus().getSelectedRow(), 5);
 				
 				
 				panelUser.getBtnCancel().setVisible(false);

@@ -96,10 +96,10 @@ public class CustomerListener implements ActionListener, ListSelectionListener{
 			DefaultTableModel model = (DefaultTableModel) panelCustomer.getTableCus().getModel();
 			int choice = JOptionPane.showConfirmDialog(null, "Bạn có thật sự muốn cập nhật khách hàng này?",null,JOptionPane.YES_NO_OPTION);
 			if(choice == JOptionPane.YES_OPTION) {
-				int id = Integer.parseInt(panelCustomer.getTableCus().getValueAt(panelCustomer.getTableCus().getSelectedRow(),0).toString());
-				String name = panelCustomer.getTableCus().getValueAt(panelCustomer.getTableCus().getSelectedRow(),1).toString();
-				String gender = panelCustomer.getTableCus().getValueAt(panelCustomer.getTableCus().getSelectedRow(),3).toString();
-				String sdt = panelCustomer.getTableCus().getValueAt(panelCustomer.getTableCus().getSelectedRow(),2).toString();
+				int id = Integer.parseInt(panelCustomer.getTxtId().getText());
+				String name = panelCustomer.getTxtName().getText();
+				String gender = panelCustomer.getCbGender().getSelectedItem().toString();
+				String sdt = panelCustomer.getTxtPhonenumber().getText();
 				if (BLL.BLLCustomer.Instance().update(id, name, sdt, gender)) {
 					try {
 						model.setValueAt(panelCustomer.getTxtId().getText(), panelCustomer.getTableCus().getSelectedRow(), 0);

@@ -29,7 +29,6 @@ public class PanelEquipment extends JPanel {
 	private JTextField txtId;
 	private JTextField txtPrice;
 	private JTextField txtQuantity;
-	private JComboBox cbName;
 	private JTable tableCus;
 	private JScrollPane scrollPane;
 	private JPanel panelDecor_1;
@@ -41,6 +40,7 @@ public class PanelEquipment extends JPanel {
 	private JButton btnSave_update;
 	private JPanel panel;
 	private ArrayList<Equipment> rows;
+	private JTextField txtName;
 	//private JPanel panelDecor;
 	/**
 	 * Create the panel.
@@ -100,7 +100,7 @@ public class PanelEquipment extends JPanel {
 		
 		tableCus = new JTable();
 		
-		DefaultTableModel model = new DefaultTableModel(new Object[] {"Mã khách hàng", "Tên khách hàng", "Giới tính", "Số điện thoại"}, 0) {
+		DefaultTableModel model = new DefaultTableModel(new Object[] {"Mã thiết bị", "Tên Thiết bị", "Giá tiền", "Số lượng"}, 0) {
 			@Override
 		    public boolean isCellEditable(int row, int column) {
 		       //all cells false
@@ -129,25 +129,8 @@ public class PanelEquipment extends JPanel {
 		txtQuantity.setBounds(448, 193, 125, 30);
 		add(txtQuantity);
 		
-		cbName = new JComboBox(new Object[] {"Sản phẩm 1", "Sản phầm 2"});
-		cbName.setBackground(SystemColor.textHighlightText);
-		cbName.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		cbName.setBounds(448, 124, 125, 30);
-		add(cbName);
 		
-		
-//		tableCus = new JTable();
-//		
-//		DefaultTableModel model = new DefaultTableModel(new Object[] {"ID", "Name", "Price", "Quantiy"}, 0) {
-//			@Override
-//		    public boolean isCellEditable(int row, int column) {
-//		       //all cells false
-//		       return false;
-//		    }
-//			
-//		};
-//		model.addRow(new Object[] {"1", "1", "1", "1"});
-//		model.addRow(new Object[] {"1", "1", "1", "1"});
+
 		
 		tableCus.setModel(model);
 		tableCus.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -220,14 +203,21 @@ public class PanelEquipment extends JPanel {
 		btnSave_update.setBackground(new Color(255, 255, 0));
 		btnSave_update.setBounds(517, 254, 85, 30);
 		add(btnSave_update);
+		//scrollPane.add(table);
+		AddListener();
+		this.txtId.setEnabled(false);
+		
+		txtName = new JTextField();
+		txtName.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtName.setEnabled(false);
+		txtName.setColumns(10);
+		txtName.setBounds(448, 122, 125, 30);
+		add(txtName);
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(176, 224, 230));
 		panel.setBounds(10, 91, 641, 153);
 		add(panel);
-		//scrollPane.add(table);
-		AddListener();
-		this.txtId.setEnabled(false);
 		SetTextEnable(false);
 	}
 	public void AddListener() {
@@ -241,6 +231,7 @@ public class PanelEquipment extends JPanel {
 	}
 	public void SetTextFieldNull() {
 		this.txtId.setText(null);
+		this.txtName.setText(null);
 		this.txtPrice.setText(null);
 		this.txtQuantity.setText(null);
 		
@@ -249,7 +240,7 @@ public class PanelEquipment extends JPanel {
 		//this.txtId.setEnabled(b);
 		this.txtPrice.setEnabled(b);
 		this.txtQuantity.setEnabled(b);
-		this.cbName.setEnabled(b);
+		this.txtName.setEnabled(b);
 	}
 	public void SetButtonVisibile(boolean b) {
 		this.btnAdd.setVisible(b);
@@ -258,7 +249,7 @@ public class PanelEquipment extends JPanel {
 	}
 	public void SetDataTextField(int row) {
 		this.txtId.setText(this.tableCus.getValueAt(row, 0).toString());
-		this.cbName.setSelectedItem(this.tableCus.getValueAt(row, 1).toString());
+		this.txtName.setText(this.tableCus.getValueAt(row, 1).toString());
 		this.txtPrice.setText(this.tableCus.getValueAt(row, 2).toString());
 		this.txtQuantity.setText(this.tableCus.getValueAt(row, 3).toString());
 		
@@ -275,8 +266,9 @@ public class PanelEquipment extends JPanel {
 	public JTextField getTxtQuantity() {
 		return txtQuantity;
 	}
-	public JComboBox getCbName() {
-		return cbName;
+	
+	public JTextField getTxtName() {
+		return txtName;
 	}
 	public JTable getTableCus() {
 		return tableCus;

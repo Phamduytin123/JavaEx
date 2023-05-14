@@ -9,12 +9,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import DTO.Course;
 import GUI.Listener.BillListener;
 import GUI.Listener.CourseListener;
 import GUI.Listener.CustomerListener;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -23,11 +27,13 @@ public class PanelCourse extends JPanel {
 	private JTextField txtCourseID;
 	private JTextField txtKind;
 	private JTextField txtPrice;
-	private JButton btnAdd, btnCancel, btnUpdate, btnDel;
+	private JButton btnAdd, btnUpdate, btnDelete;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JTable tableCus;
 	private JScrollPane scrollPane;
+	private JButton btnCancel, btnSave_add, btnSave_update;
+	private ArrayList<Course> rows;
 	/**
 	 * Create the panel.
 	 */
@@ -80,12 +86,6 @@ public class PanelCourse extends JPanel {
 		txtPrice.setBounds(125, 102, 125, 30);
 		panel.add(txtPrice);
 
-		btnCancel = new JButton("Hủy");
-		btnCancel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnCancel.setBackground(Color.LIGHT_GRAY);
-		btnCancel.setBounds(211, 254, 89, 30);
-		add(btnCancel);
-
 		btnAdd = new JButton("Thêm");
 		btnAdd.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		btnAdd.setBackground(Color.GREEN);
@@ -98,11 +98,11 @@ public class PanelCourse extends JPanel {
 		btnUpdate.setBounds(416, 254, 89, 30);
 		add(btnUpdate);
 
-		btnDel = new JButton("Xóa");
-		btnDel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		btnDel.setBackground(Color.RED);
-		btnDel.setBounds(515, 254, 89, 30);
-		add(btnDel);
+		btnDelete = new JButton("Xóa");
+		btnDelete.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnDelete.setBackground(Color.RED);
+		btnDelete.setBounds(515, 254, 89, 30);
+		add(btnDelete);
 		
 		panel_1 = new JPanel();
 		panel_1.setBounds(234, 43, 417, 4);
@@ -122,8 +122,18 @@ public class PanelCourse extends JPanel {
 		    }
 			
 		};
-		model.addRow(new Object[] {"1", "1", "1"});
-		model.addRow(new Object[] {"1", "1", "1"});
+		try {
+			rows = BLL.BLLCourse.Instance().selectAll();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (int i = 0; i < rows.size(); i++) {
+			int id = rows.get(i).getID();
+			String kind = rows.get(i).getKind();
+			int price = rows.get(i).getPrice();
+			model.addRow(new Object[] {id, kind, price});
+		}
 		
 		tableCus.setModel(model);
 		
@@ -136,86 +146,90 @@ public class PanelCourse extends JPanel {
 		scrollPane.setBackground(new Color(240, 248, 255));
 		scrollPane.setBounds(10, 307, 641, 236);
 		add(scrollPane);
+		
+		btnCancel = new JButton("Hủy");
+		btnCancel.setBounds(416, 254, 89, 30);
+		add(btnCancel);
+		btnCancel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnCancel.setBackground(Color.PINK);
+		
+		btnSave_add = new JButton("Lưu");
+		btnSave_add.setBounds(515, 254, 89, 30);
+		add(btnSave_add);
+		btnSave_add.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnSave_add.setBackground(Color.YELLOW);
+		
+		btnSave_update = new JButton("Lưu");
+		btnSave_update.setBounds(515, 254, 89, 30);
+		add(btnSave_update);
+		btnSave_update.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnSave_update.setBackground(Color.YELLOW);
 //		SetTextEditable();
-	}
-	public void SetTextEditable(boolean b) {
-		txtCourseID.setEditable(b);
-		txtKind.setEditable(b);
-		txtPrice.setEditable(b);
-
-	}
-	public void SetTextUnEditable() {
-		txtCourseID.setEditable(false);
-		txtKind.setEditable(false);
-		txtPrice.setEditable(false);
-		
-	}
-	
-	public void SetTextEditable() {
-		txtCourseID.setEnabled(true);
-		txtKind.setEditable(true);
-		txtPrice.setEditable(true);
-		
+		AddListener();
 	}
 
-	public void SetTextInfor(int index) {
-		txtCourseID.setText(tableCus.getValueAt(index, 0)+"");
-		txtKind.setText(tableCus.getValueAt(index, 1)+"");
-		txtPrice.setText(tableCus.getValueAt(index, 2)+"");
-		
+	public ArrayList<Course> getRows() {
+		return rows;
 	}
-	
+
+	public void setRows(ArrayList<Course> rows) {
+		this.rows = rows;
+	}
+
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
+
+	public JButton getBtnSave_add() {
+		return btnSave_add;
+	}
+
+	public JButton getBtnSave_update() {
+		return btnSave_update;
+	}
+
+	public void setBtnAdd(JButton btnAdd) {
+		this.btnAdd = btnAdd;
+	}
+
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
+	}
+
 	public void AddListener() {
 		tableCus.getSelectionModel().addListSelectionListener(new CourseListener(this));
-		btnAdd.addActionListener(new CourseListener(this));
+		btnSave_add.addActionListener(new CourseListener(this));
+		btnSave_update.addActionListener(new CourseListener(this));
 		btnCancel.addActionListener(new CourseListener(this));
+		btnAdd.addActionListener(new CourseListener(this));
+		btnDelete.addActionListener(new CourseListener(this));
 		btnUpdate.addActionListener(new CourseListener(this));
 	}
-	
-	public void PressCancel() {
-		SetTextUnEditable();
-		btnCancel.setEnabled(false);
-		btnAdd.setEnabled(true);
-		btnUpdate.setEnabled(true);
-		btnAdd.setText("Thêm");
-		btnUpdate.setText("Sửa");
-	}
-	
-	public void PressAdd() {
-		SetTextEditable();
-		btnUpdate.setEnabled(false);
-		btnCancel.setEnabled(true);
-		btnAdd.setText("Lưu");
-	}
-	
-	public void PressSaveAdd() {
-//		String cusName = txtCus.getText();
-//		String staffName = txtUser.getText();
-//		String courseName = cbbCourseInfor.getSelectedItem().toString();
-//		String DOB = txtDate.getText();
-//		int total = Integer.parseInt(txtTotal.getText());
-//		
-//		LocalDate date = LocalDate.now();
+	public void SetTextFieldNull() {
+		this.txtCourseID.setText(null);
+		this.txtKind.setText(null);
+		this.txtPrice.setText(null);
 		
-		SetTextUnEditable();
-		btnUpdate.setEnabled(true);
-		btnCancel.setEnabled(false);
-		btnAdd.setText("Thêm");
 	}
-	
-	public void PressUpdate() {
-		SetTextEditable();
-		btnAdd.setEnabled(false);
-		btnCancel.setEnabled(true);
-		btnUpdate.setText("Lưu");
+	public void SetTextEnable(boolean b) {
+		//this.txtId.setEnabled(b);
+		this.txtCourseID.setEnabled(b);
+		this.txtKind.setEnabled(b);
+		this.txtPrice.setEnabled(b);
 	}
-	
-	public void PressSaveUpdate() {
-		SetTextUnEditable();
-		btnAdd.setEnabled(true);
-		btnCancel.setEnabled(false);
-		btnUpdate.setText("Sửa");
+	public void SetButtonVisibile(boolean b) {
+		this.btnAdd.setVisible(b);
+		this.btnUpdate.setVisible(b);
+		this.btnDelete.setVisible(b);
 	}
+	public void SetDataTextField(int row) {
+		this.txtCourseID.setText(this.tableCus.getValueAt(row, 0).toString());
+		this.txtKind.setText(this.tableCus.getValueAt(row, 1).toString());
+		this.txtPrice.setText(this.tableCus.getValueAt(row, 2).toString());
+		
+	}
+
+
 	
 	public JTextField getTxtCourseID() {
 		return txtCourseID;
@@ -236,10 +250,9 @@ public class PanelCourse extends JPanel {
 		return btnUpdate;
 	}
 	public JButton getBtnDel() {
-		return btnDel;
+		return btnDelete;
 	}
 	public JTable getTableCus() {
 		return tableCus;
 	}
-	
 }

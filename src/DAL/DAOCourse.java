@@ -49,7 +49,9 @@ public class DAOCourse implements DAOUtils<Course, Integer>{
 	@Override
 	public int update(Course t) throws SQLException, ClassNotFoundException {
 		int data = 0;
-		String sql = "Update Course Set Kind = ? , Price = ? where Id = ?";
+		//String sql = "Update Course Set Kind = ? , Price = ? where Id = ?";
+		String sql = "Update Course Set Kind = '" + t.getKind()  + "','" + "Price = '" + t.getPrice();
+		//.String sql = String.format("Update Course Set Kind = N'%s' , Price = %d where Id = %d",t.getKind(),t.getPrice(),t.getID());
 		Connection con = JDBCUtils.getConnection();
 		
 		PreparedStatement stmt = con.prepareStatement(sql);
