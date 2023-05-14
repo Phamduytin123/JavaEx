@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import BLL.BLLBill;
 import BLL.BLLCourse;
 import BLL.BLLCustomer;
+import DAL.DAOUser;
 import DTO.BillInfor;
 import DTO.Course;
 import GUI.Listener.BillListener;
@@ -37,6 +38,7 @@ public class PanelBill extends JPanel {
 	private JTextField txtUser;
 	private JTextField txtDate;
 	private JTextField txtTotal;
+	private String IDU;
 
 	private DefaultTableModel dtm;
 	private JTable table;
@@ -52,7 +54,8 @@ public class PanelBill extends JPanel {
 	 * Create the panel.
 	 */
 
-	public PanelBill() throws SQLException, ClassNotFoundException {
+	public PanelBill(String u) throws SQLException, ClassNotFoundException {
+		this.IDU = u;
 		setBackground(new Color(255, 255, 255));
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setBounds(188, 0, 614, 553);
@@ -300,10 +303,10 @@ public class PanelBill extends JPanel {
 		int total = Integer.parseInt(txtTotal.getText());
 
 		BLLBill.Instance().insert(BLLCustomer.Instance().selectByPhone(cusName).getID(),
-				BLLCourse.Instance().selectAll(courseName).get(0).getID(), 2, total);
+				BLLCourse.Instance().selectAll(courseName).get(0).getID(), DAOUser.getInstance().selectByUserName(IDU).get(0).getID(), total);
 		data = BLLBill.Instance().getAllBillInfor();
 		Object[] newRow = { data.get(data.size() - 1).getIdBill(),
-				BLLCustomer.Instance().selectByPhone(cusName).getName(), staffName, courseName, date.toString(),
+				BLLCustomer.Instance().selectByPhone(cusName).getName(),  DAOUser.getInstance().selectByUserName(IDU).get(0).getFullName(), courseName, date.toString(),
 				total };
 		dtm.addRow(newRow);
 		table.revalidate();
@@ -338,7 +341,7 @@ public class PanelBill extends JPanel {
 
 			try {
 				BLLBill.Instance().update(ID, BLLCustomer.Instance().selectByPhone(cusName).getID(),
-						BLLCourse.Instance().selectAll(courseName).get(0).getID(), 2, date, total);
+						BLLCourse.Instance().selectAll(courseName).get(0).getID(),DAOUser.getInstance().selectByUserName(IDU).get(0).getID(), date, total);
 			} catch (ClassNotFoundException | SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

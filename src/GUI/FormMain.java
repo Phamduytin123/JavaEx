@@ -34,27 +34,29 @@ public class FormMain extends JFrame implements ActionListener {
 	private JButton btnSignOut;
 	private JButton btnCustomer;
 	private PanelBill panelBill;
+	private String IDUser;
 	private LabelTrangChu lbTrangchu;
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FormMain frame = new FormMain();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					FormMain frame = new FormMain();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
 	 */
-	public FormMain() {
+	public FormMain(String ID) {
+		this.IDUser = ID;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 861, 585);
 		contentPane = new JPanel();
@@ -99,7 +101,7 @@ public class FormMain extends JFrame implements ActionListener {
 		contentPane.add(panelUser);
 		
 		try {
-			panelBill = new PanelBill();
+			panelBill = new PanelBill(IDUser);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,6 +165,14 @@ public class FormMain extends JFrame implements ActionListener {
 		this.panelEquipment.setVisible(false);
 		this.panelUser.setVisible(false);
 		
+	}
+
+	public String getIDUser() {
+		return IDUser;
+	}
+
+	public void setIDUser(String iDUser) {
+		IDUser = iDUser;
 	}
 
 	@Override

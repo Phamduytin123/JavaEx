@@ -23,7 +23,7 @@ public class LoginListener implements  ActionListener{
 			String pass = this.login.txtPassword.getText();
 			if(BLLUser.Instance().selectByUserNameAndPass( username, pass) == true) {
 				// show form tiếp theo
-				FormMain formMain = new FormMain();
+				FormMain formMain = new FormMain(username);
 				formMain.setVisible(true);
 				login.setVisible(false);
 			}

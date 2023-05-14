@@ -10,6 +10,6 @@ import DAL.DAOUser;
 
 public class Test1 {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		System.out.println(DAOUser.getInstance().selectByUserNameAndPass("tin123", "123"));
+		System.out.println(DAOUser.getInstance().selectByUserName("tin123").size());
 	}
 }

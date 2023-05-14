@@ -147,4 +147,32 @@ public class DAOUser implements DAOUtils<User, Integer> {
 		data = users.size();
 		return data;
 }
+	public ArrayList<User> selectByUserName(String username) throws SQLException {
+		int data = 0;
+		ArrayList<User> users = new ArrayList<User>();
+		Connection con = JDBCUtils.getConnection();
+		String query = String.format("Select * from UserAccount Where UserName = N'%s'",username);
+		PreparedStatement stmt = con.prepareStatement(query);
+		
+		ResultSet rs = stmt.executeQuery();
+		try {
+			while(rs.next()) {
+				int id = rs.getInt(1);
+				String user = rs.getString(2);
+				String password = rs.getString(3);
+				String role = rs.getString(4);
+				String fullname = rs.getString(5);
+				String address = rs.getString(6);
+				User u = new User(id,user,password,role,fullname,address);
+				users.add(u);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+			rs.close();
+			stmt.close();
+			JDBCUtils.closeConnection(con);
+		data = users.size();
+		return users;
+}
 }
