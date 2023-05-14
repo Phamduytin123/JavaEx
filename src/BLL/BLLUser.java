@@ -54,4 +54,11 @@ public class BLLUser {
 	public ArrayList<User> selecAll() throws ClassNotFoundException, SQLException{
 		return DAOUser.getInstance().selectAll();
 	}
+	public boolean selectByUserNameAndPass(String username, String pass) {
+		try {
+			return DAOUser.getInstance().selectByUserNameAndPass(username, pass) > 0;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
 }
