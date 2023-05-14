@@ -105,6 +105,9 @@ public class CourseListener implements ActionListener, ListSelectionListener{
 					String kind = panelCourse.getTxtKind().getText();
 					int price =Integer.parseInt(panelCourse.getTxtPrice().getText());
 					if (BLL.BLLCourse.Instance().update(id, kind, price)) {
+//						model.setValueAt(id, panelCourse.getTableCus().getSelectedRow(), 0);
+//						model.setValueAt(kind, panelCourse.getTableCus().getSelectedRow(), 1);
+//						model.setValueAt(8, panelCourse.getTableCus().getSelectedRow(), 2);
 						try {
 							
 							panelCourse.setRows(BLL.BLLCourse.Instance().selectAll());
@@ -117,7 +120,10 @@ public class CourseListener implements ActionListener, ListSelectionListener{
 						model.setValueAt(price, panelCourse.getTableCus().getSelectedRow(), 2);
 						
 					}
-			}
+				}
+//				model.setValueAt(8, panelCourse.getTableCus().getSelectedRow(), 0);
+//				model.setValueAt("Lala", panelCourse.getTableCus().getSelectedRow(), 1);
+//				model.setValueAt(8, panelCourse.getTableCus().getSelectedRow(), 2);
 				panelCourse.getBtnCancel().setVisible(false);
 				panelCourse.getBtnSave_update().setVisible(false);
 				panelCourse.getBtnSave_add().setVisible(false);
